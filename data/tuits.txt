@@ -2,16 +2,16 @@
   {
     "id": 0,
     "usuario" : "@pepe_perez",
-    "tuit": "Liberan a los dos sospechosos detenidos por el asesinato de un niño de 11 años en Liverpool"
+    "tuit": "Liberan a los dos sospechosos detenidos por el asesinato de un niÃ±o de 11 aÃ±os en Liverpool"
   },
   {
     "id": 1,
     "usuario" : "@juan_toqui",
-    "tuit": "Detienen a seis jóvenes más en relación con el asesinato de el niño de Liverpool"
+    "tuit": "Detienen a seis jÃ³venes mÃ¡s en relaciÃ³n con el asesinato de el niÃ±o de Liverpool"
   },
   {
     "id": 2,
     "usuario" : "@pupulupu",
-    "tuit": "Siguen los interrogatorios a los detenidos por el asesinato de el niño de Liverpool"
+    "tuit": "Siguen los interrogatorios a los detenidos por el asesinato de el niÃ±o de Liverpool"
   }
 ]
