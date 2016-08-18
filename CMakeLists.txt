@@ -13,3 +13,6 @@ set(SOURCE_FILES
 
 add_executable(AnalizarNoticiasLinux ${SOURCE_FILES})
 target_link_libraries(AnalizarNoticiasLinux analizadorLib)
+add_custom_command(TARGET AnalizarNoticiasLinux POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/data $<TARGET_FILE_DIR:AnalizarNoticiasLinux>/data)
