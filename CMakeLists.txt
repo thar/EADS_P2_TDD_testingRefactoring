@@ -3,15 +3,13 @@ project(AnalizarNoticiasLinux)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
+add_subdirectory(lib)
 add_subdirectory(tests)
 
+include_directories(lib/Analizador)
+
 set(SOURCE_FILES
-    Analizador.cpp
-    Analizador.h
-    EntidadNombrada.cpp
-    EntidadNombrada.h
-    Main.cpp
-    Noticia.cpp
-    Noticia.h)
+        main.cpp)
 
 add_executable(AnalizarNoticiasLinux ${SOURCE_FILES})
+target_link_libraries(AnalizarNoticiasLinux analizadorLib)
