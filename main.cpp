@@ -6,11 +6,7 @@
  */
 
 #include "iostream"
-#include "EntidadNombrada.h"
-#include "cstdio"
-#include "Noticia.h"
 #include "Analizador.h"
-#include <iterator>
 
 int main() {
 
