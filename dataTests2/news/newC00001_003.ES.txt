@@ -1,0 +1,2 @@
+titulo de la Tercera Noticia
+esta Tercera Noticia no tiene como la primera EntidadNombrada " Noticia ", pero es la mas frecuente

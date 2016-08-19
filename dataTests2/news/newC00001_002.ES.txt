@@ -1,0 +1,2 @@
+titulo de la Segunda Noticia
+esto es una Noticia para comprobar la Agrupacion simple

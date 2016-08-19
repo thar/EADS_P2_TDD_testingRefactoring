@@ -34,9 +34,12 @@ endif()
 
 include_directories(../lib/Analizador)
 
-add_executable(AnalizadorTests TestsBasicos.cpp TestsEntidadNombrada.cpp TestsNoticia.cpp)
+add_executable(AnalizadorTests TestsAnalizador.cpp TestsEntidadNombrada.cpp TestsNoticia.cpp)
 target_link_libraries(AnalizadorTests LINK_PUBLIC gtest gmock_main analizadorLib jsoncppLib)
 add_test(NAME AnalizadorTests_test COMMAND AnalizadorTests)
 add_custom_command(TARGET AnalizadorTests POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/dataTests $<TARGET_FILE_DIR:AnalizadorTests>/dataTests)
+add_custom_command(TARGET AnalizadorTests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/dataTests2 $<TARGET_FILE_DIR:AnalizadorTests>/dataTests2)
