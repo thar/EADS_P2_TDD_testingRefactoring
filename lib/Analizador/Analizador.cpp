@@ -26,7 +26,7 @@ Analizador::Analizador(std::string ruta) {
 }
 
 std::list<Noticia> Analizador::getNoticias() const {
-	std::list<Noticia> l;
+	std::list<Noticia> l = this->noticias;
 	return l;
 }
 

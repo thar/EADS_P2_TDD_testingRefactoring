@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 2.8.2)
 
-project(Example)
-
 include(CTest)
 
 if (CMAKE_VERSION VERSION_LESS 3.2)
@@ -33,6 +31,12 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
 endif()
 
 # Trivial example using gtest and gmock
-add_executable(AnalizadorTests example.cpp)
-target_link_libraries(AnalizadorTests LINK_PUBLIC gtest gmock_main)
+
+include_directories(../lib/Analizador)
+
+add_executable(AnalizadorTests example.cpp TestsBasicos.cpp)
+target_link_libraries(AnalizadorTests LINK_PUBLIC gtest gmock_main analizadorLib)
 add_test(NAME AnalizadorTests_test COMMAND AnalizadorTests)
+add_custom_command(TARGET AnalizadorTests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/dataTests $<TARGET_FILE_DIR:AnalizadorTests>/dataTests)

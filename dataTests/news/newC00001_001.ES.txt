@@ -1,0 +1,29 @@
+lista de palabras del alfabeto radiofónico
+a continuación se muestra una lista con las palabras pertenecientes al alfabeto radiofónico
+A	Alfa	Al fah	Alfa
+B	Bravo	Bra voh	Bravo
+C	Charlie	Char li, Shah lee	Chali o Charli
+D	Delta	Dell tah	Delta
+E	Echo	Eck oh	Eco
+F	Foxtrot	Foks trot	Focstrot o Facstrat
+G	Golf	Golf	Golf
+H	Hotel	Hou tell	Joutel
+I	India	In di ah	Índia
+J	Juliet	Yu li ett	Yuliét
+K	Kilo	Ki loh	Kilo
+L	Lima	Li mah	Lima
+M	Mike	Maik	Maic
+N	November	Nou vem ber	Nouvember
+Ñ	Ñoño	(no tiene, solo es para el español)	Ñoño
+O	Oscar	Oss car	Óscar
+P	Papa	Pah pah	Papa
+Q	Quebec	Ke beck	Quebéc
+R	Romeo	Rou me oh	Romeo
+S	Sierra	Si e rah	Sierra
+T	Tango	Tang gou	Tango
+U	Uniform	IU ni form	Iúnifom
+V	Victor	Vik tor	Victor
+W	Whiskey	Wiss key	Uisqui
+X	X-ray	Ecks rey	Ecs-rey
+Y	Yankee	Yan key	Yanqui
+Z	Zulu	Zu lu	Sulú
