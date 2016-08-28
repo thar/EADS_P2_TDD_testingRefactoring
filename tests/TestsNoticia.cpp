@@ -92,5 +92,5 @@ TEST(Noticia, testAgrupacion30PorCiento)
     Noticia n2("Noticia 2 ", "Esta Noticia Tiene el 30% de las Entidades más Relevantes de la Primera y Muchas Otras Más. Cinco ", "dataTests/ES_stopList_test1.txt");
     auto entidadesRelevantes1 = n1.getEntidadesRelevantes();
     ASSERT_EQ(entidadesRelevantes1.size(), 3);
-    ASSERT_EQ(n1.esAgrupable(n2), true);
+    ASSERT_EQ(n2.esAgrupable(n1), true);
 }
