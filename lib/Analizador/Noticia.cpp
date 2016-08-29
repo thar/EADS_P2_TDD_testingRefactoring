@@ -92,17 +92,17 @@ std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
 	return lista;
 }
 
-bool Noticia::esAgrupable(NoticiaInterface& n) const {
+bool Noticia::esAgrupable(std::shared_ptr<NoticiaInterface> n) const {
 
 	bool salida = false;
 
-	if (this->titulo.find(n.getMasFrecuente().getEntidadNombrada())
+	if (this->titulo.find(n->getMasFrecuente().getEntidadNombrada())
 			!= std::string::npos) {
 		salida = true;
 	}
 
 	std::list<EntidadNombrada> primero = this->getEntidadesRelevantes();
-	std::list<EntidadNombrada> segundo = n.getEntidadesRelevantes();
+	std::list<EntidadNombrada> segundo = n->getEntidadesRelevantes();
 	std::list<EntidadNombrada> final;
 	EntidadNombrada en1;
 	EntidadNombrada en2;

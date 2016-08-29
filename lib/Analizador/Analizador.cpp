@@ -131,15 +131,15 @@ std::string Analizador::agruparNoticiasGeneral() {
 			it1++) {
 
 		bool sola = true;
-		NoticiaInterface& n = *(*it1);
+        std::shared_ptr<NoticiaInterface> n = (*it1);
 		for (std::list<std::shared_ptr<NoticiaInterface>>::iterator it2 = ln1.begin(); it2 != ln1.end();
 				it2++) {
-			NoticiaInterface& n2 = *(*it2);
+            std::shared_ptr<NoticiaInterface> n2 = (*it2);
 
 			if ((distance(it1, it2) != 0)) {
-				if ((n.esAgrupable(n2)) || (n2.esAgrupable(n))) {
-					agrupacion[c].push_back(n.getMasFrecuente());
-					agrupacion[c].push_back(n2.getMasFrecuente());
+				if ((n->esAgrupable(n2)) || (n2->esAgrupable(n))) {
+					agrupacion[c].push_back(n->getMasFrecuente());
+					agrupacion[c].push_back(n2->getMasFrecuente());
 					it2 = ln1.erase(it2);
 					sola = false;
 				}
@@ -158,7 +158,7 @@ std::string Analizador::agruparNoticiasGeneral() {
 			}
 		}
 		if (sola) {
-			agrupacion[c].push_back(n.getMasFrecuente());
+			agrupacion[c].push_back(n->getMasFrecuente());
 			it1 = ln1.erase(it1);
 		}
 
@@ -256,5 +256,10 @@ std::string Analizador::toString() const {
 		salida = salida + "Titulo: " + aux->getTitulo() + "\n\n";
 	}
 	return salida;
+}
+
+void Analizador::addNoticia(std::shared_ptr<NoticiaInterface> n)
+{
+    noticias.push_back(n);
 }
 

@@ -4,16 +4,17 @@
 
 #include <string>
 #include <list>
+#include <memory>
 #include "EntidadNombrada.h"
 
 class NoticiaInterface {
 
 public:
 
-    virtual void setTitulo(std::string titulo) = 0;
-    virtual void setCuerpo(std::string cuerpo) = 0;
-    virtual void setPalabrasReservadas(std::string ruta) = 0;
-    virtual void actualizar() = 0;
+    virtual void setTitulo(std::string titulo) {};
+    virtual void setCuerpo(std::string cuerpo) {};
+    virtual void setPalabrasReservadas(std::string ruta) {};
+    virtual void actualizar() {};
 
     virtual std::string getTitulo()const = 0;
     virtual std::string getCuerpo()const = 0;
@@ -21,7 +22,7 @@ public:
     virtual std::list<EntidadNombrada> getEntidades()const = 0;
     virtual std::list<std::string> getPalabrasReservadas()const = 0;
     virtual std::list<EntidadNombrada> getEntidadesRelevantes()const = 0;
-    virtual bool esAgrupable(NoticiaInterface& n)const = 0;
+    virtual bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const = 0;
     virtual std::string toString()const = 0;
 };
 

@@ -35,7 +35,7 @@ public:
 	std::list<EntidadNombrada> getEntidades()const;
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<EntidadNombrada> getEntidadesRelevantes()const;
-	bool esAgrupable(NoticiaInterface& n)const;
+	bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const;
 	std::string toString()const;
 
 

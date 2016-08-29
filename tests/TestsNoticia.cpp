@@ -82,16 +82,16 @@ TEST(Noticia, givenNoticiaSinEntidadesRelevantes_whenPreguntarPorEntidadesReleva
 TEST(Noticia, givenDosNoticiasConMismaEntidadMasFrecuente_whenPreguntarPorAgrupables_then_true)
 {
     Noticia n1("Título de la noticia ", "noticia con entidades no Relevantes ", "dataTests/ES_stopList_test1.txt");
-    Noticia n2("Título Relevante ", "noticia sin entidades ", "dataTests/ES_stopList_test1.txt");
+    std::shared_ptr<Noticia> n2 = std::make_shared<Noticia>("Título Relevante ", "noticia sin entidades ", "dataTests/ES_stopList_test1.txt");
     EXPECT_EQ(n1.esAgrupable(n2), true);
 }
 
 TEST(Noticia, givenDosNoticiasConDistintaEntidadMasFrecuentePeroCumpliendoCondicion30Porciento_whenPreguntarPorAgrupables_then_true)
 {
-    Noticia n1("Noticia 1 ", "Noticia Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce ", "dataTests/ES_stopList_test1.txt");
+    std::shared_ptr<Noticia> n1 = std::make_shared<Noticia>("Noticia 1 ", "Noticia Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce ", "dataTests/ES_stopList_test1.txt");
     Noticia n2("Noticia 2 ", "Esta Noticia Tiene el 30% de las Entidades más Relevantes de la Primera y Muchas Otras Más. Cinco ", "dataTests/ES_stopList_test1.txt");
-    ASSERT_EQ(n1.getMasFrecuente().esIgual(n2.getMasFrecuente()), false);
-    auto entidadesRelevantes1 = n1.getEntidadesRelevantes();
+    ASSERT_EQ(n1->getMasFrecuente().esIgual(n2.getMasFrecuente()), false);
+    auto entidadesRelevantes1 = n1->getEntidadesRelevantes();
     EXPECT_EQ(entidadesRelevantes1.size(), 3);
     EXPECT_EQ(n2.esAgrupable(n1), true);
 }

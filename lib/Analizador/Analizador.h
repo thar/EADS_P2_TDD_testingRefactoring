@@ -30,6 +30,8 @@ public:
 
 	std::string toString()const;
 
+    void addNoticia(std::shared_ptr<NoticiaInterface> n);
+
 private:
 
 	std::string rellenarCeros(int n, int size)const;
