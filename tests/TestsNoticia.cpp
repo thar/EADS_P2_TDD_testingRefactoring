@@ -88,7 +88,7 @@ TEST(Noticia, testAgrupacionEntidadMasNombradaTitulo)
 
 TEST(Noticia, testAgrupacion30PorCiento)
 {
-    Noticia n1("Noticia 1 ", "Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce ", "dataTests/ES_stopList_test1.txt");
+    Noticia n1("Noticia 1 ", "Noticia Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce ", "dataTests/ES_stopList_test1.txt");
     Noticia n2("Noticia 2 ", "Esta Noticia Tiene el 30% de las Entidades más Relevantes de la Primera y Muchas Otras Más. Cinco ", "dataTests/ES_stopList_test1.txt");
     auto entidadesRelevantes1 = n1.getEntidadesRelevantes();
     ASSERT_EQ(entidadesRelevantes1.size(), 3);
