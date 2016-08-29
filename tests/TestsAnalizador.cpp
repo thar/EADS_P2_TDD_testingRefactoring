@@ -7,7 +7,7 @@ TEST(Analizador, whenDataConUnaNoticiaThenUnaNoticiaEsRecuperadaDelAnalizador)
     Analizador a1("dataTests");
     auto noticias = a1.getNoticias();
     EXPECT_EQ(noticias.size(), 1);
-    EXPECT_EQ(noticias.front().getTitulo(), " lista de palabras del alfabeto radiofónico");
+    EXPECT_EQ(noticias.front()->getTitulo(), " lista de palabras del alfabeto radiofónico");
 }
 
 TEST(Analizador, testConstructorSinParametros)
@@ -16,7 +16,7 @@ TEST(Analizador, testConstructorSinParametros)
     a1.setNoticas("dataTests");
     auto noticias = a1.getNoticias();
     EXPECT_EQ(noticias.size(), 1);
-    EXPECT_EQ(noticias.front().getTitulo(), " lista de palabras del alfabeto radiofónico");
+    EXPECT_EQ(noticias.front()->getTitulo(), " lista de palabras del alfabeto radiofónico");
 }
 
 TEST(Analizador, testAgrupacionSimple)

@@ -10,6 +10,6 @@ set(SOURCE_FILES
     EntidadNombrada.cpp
     EntidadNombrada.h
     Noticia.cpp
-    Noticia.h)
+    Noticia.h NoticiaInterface.h)
 
 add_library(analizadorLib ${SOURCE_FILES})

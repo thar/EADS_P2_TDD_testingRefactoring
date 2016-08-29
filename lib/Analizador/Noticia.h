@@ -10,8 +10,9 @@
 #include "string"
 #include <list>
 #include "EntidadNombrada.h"
+#include "NoticiaInterface.h"
 
-class Noticia {
+class Noticia : public NoticiaInterface {
 
 	std::string titulo;
 	std::string cuerpo;
@@ -34,7 +35,7 @@ public:
 	std::list<EntidadNombrada> getEntidades()const;
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<EntidadNombrada> getEntidadesRelevantes()const;
-	bool esAgrupable(Noticia n)const;
+	bool esAgrupable(NoticiaInterface& n)const;
 	std::string toString()const;
 
 

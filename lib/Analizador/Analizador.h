@@ -9,11 +9,12 @@
 #define ANALIZADOR_H_
 #include "string"
 #include <list>
-#include "Noticia.h"
+#include <memory>
+#include "NoticiaInterface.h"
 
 class Analizador {
 
-	std::list<Noticia> noticias;
+	std::list<std::shared_ptr<NoticiaInterface>> noticias;
 	std::string ruta;
 
 
@@ -21,7 +22,7 @@ public:
 	Analizador();
 	Analizador(std::string ruta);
 
-	std::list<Noticia> getNoticias() const;
+	std::list<std::shared_ptr<NoticiaInterface>> getNoticias() const;
 	void setNoticas(std::string ruta);
 
 	std::string agruparNoticias();
