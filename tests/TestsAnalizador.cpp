@@ -2,7 +2,7 @@
 #include "gmock/gmock.h"
 #include "Analizador.h"
 
-TEST(Analizador, whenDataConUnaNoticiaThenUnaNoticiaEsRecuperadaDelAnalizador)
+TEST(Analizador, givenCarpetaConUnaNoticia_whenObtenerNumeroDeNoticias_y_titulo_then_UnaNoticiaConTituloCorrectoEsObtenida)
 {
     Analizador a1("dataTests");
     auto noticias = a1.getNoticias();
@@ -10,7 +10,7 @@ TEST(Analizador, whenDataConUnaNoticiaThenUnaNoticiaEsRecuperadaDelAnalizador)
     EXPECT_EQ(noticias.front()->getTitulo(), " lista de palabras del alfabeto radiofónico");
 }
 
-TEST(Analizador, testConstructorSinParametros)
+TEST(Analizador, givenCarpetaConUnaNoticia_whenCrearAnalizadorConConstructorVacio_y_establecerCarpetaDeNoticiasDespues_then_UnaNoticiaConTituloCorrectoEsObtenida)
 {
     Analizador a1;
     a1.setNoticas("dataTests");
@@ -19,7 +19,7 @@ TEST(Analizador, testConstructorSinParametros)
     EXPECT_EQ(noticias.front()->getTitulo(), " lista de palabras del alfabeto radiofónico");
 }
 
-TEST(Analizador, testAgrupacionSimple)
+TEST(Analizador, givenCarpetaCon4Noticias_whenAgruparNoticiasPorEntidadMasFrecuente_then_DosGruposSonObtenidos)
 {
     Analizador a1("dataTests2");
     auto noticias = a1.getNoticias();
@@ -33,12 +33,13 @@ TEST(Analizador, testAgrupacionSimple)
             "*[ titulo de la Primera Noticia]\n");
 }
 
-TEST(Analizador, testAgrupacionTematico)
+TEST(Analizador, givenCarpetaCon4Noticias_whenAgruparNoticiasPorEntidadMasFrecuente_then_UnGrupoEsObtenido)
 {
     Analizador a1("dataTests2");
     auto noticias = a1.getNoticias();
     EXPECT_EQ(noticias.size(), 4);
-    EXPECT_EQ(a1.agruparNoticiasGeneral(), "[ titulo de la Cuarta Noticia]\n"
+    EXPECT_EQ(a1.agruparNoticiasGeneral(), "\nCuarta Noticia\n"
+            "   *[ titulo de la Cuarta Noticia]\n"
             "   *[ titulo de la Tercera Noticia]\n"
             "   *[ titulo de la Segunda Noticia]\n"
             "   *[ titulo de la Primera Noticia]\n\n");
