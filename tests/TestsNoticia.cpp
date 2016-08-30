@@ -11,8 +11,8 @@ TEST(Noticia, givenDatosParaCreacionDeNoticiaConUnaSolaEntidad_whenObtenerDatosD
     EXPECT_EQ(palabrasReservadas.size(), 4);
     auto entidadesEncontradas = n.getEntidades();
     ASSERT_EQ(entidadesEncontradas.size(), 1);
-    EXPECT_EQ(entidadesEncontradas.front().getEntidadNombrada(), "Ahora");
-    EXPECT_EQ(n.getMasFrecuente().getEntidadNombrada(), "Ahora");
+    EXPECT_EQ(entidadesEncontradas.front(), "Ahora");
+    EXPECT_EQ(n.getEntidadMasFrecuente(), "Ahora");
     EXPECT_EQ(n.getEntidadesRelevantes().front(), "Ahora");
 }
 
@@ -29,8 +29,8 @@ TEST(Noticia, givenDatosParaCreacionDeNoticiaConUnaSolaEntidad_whenConstructorSi
     EXPECT_EQ(palabrasReservadas.size(), 4);
     auto entidadesEncontradas = n.getEntidades();
     ASSERT_EQ(entidadesEncontradas.size(), 1);
-    EXPECT_EQ(entidadesEncontradas.front().getEntidadNombrada(), "Ahora");
-    EXPECT_EQ(n.getMasFrecuente().getEntidadNombrada(), "Ahora");
+    EXPECT_EQ(entidadesEncontradas.front(), "Ahora");
+    EXPECT_EQ(n.getEntidadMasFrecuente(), "Ahora");
     EXPECT_EQ(n.getEntidadesRelevantes().front(), "Ahora");
 }
 
@@ -43,8 +43,8 @@ TEST(Noticia, givenNoticiaConEntidadesSoloPertenecientes_a_laListaDePalabrasRese
     n.actualizar();
     entidadesEncontradas = n.getEntidades();
     ASSERT_EQ(entidadesEncontradas.size(), 1);
-    EXPECT_EQ(entidadesEncontradas.front().getEntidadNombrada(), "Entidad");
-    EXPECT_EQ(n.getMasFrecuente().getEntidadNombrada(), "Entidad");
+    EXPECT_EQ(entidadesEncontradas.front(), "Entidad");
+    EXPECT_EQ(n.getEntidadMasFrecuente(), "Entidad");
 }
 
 TEST(Noticia, givenNoticiaConEntidadesSoloPertenecientes_a_laListaDePalabrasReservadasConFrecuenciaMayorQueUno_whenPreguntarPorEntidadesEncontradas_then_CeroSonDevueltas)
@@ -59,7 +59,7 @@ TEST(Noticia, givenNoticiaConEntidadConFrecuencia3_whenPreguntarPorEntidadesEnco
     Noticia n("Título de la noticia ", "Prueba prueba Prueba prueba Prueba ", "dataTests/ES_stopList_test1.txt");
     auto entidadesEncontradas = n.getEntidades();
     ASSERT_EQ(entidadesEncontradas.size(), 1);
-    EXPECT_EQ(entidadesEncontradas.front().getFrecuencia(), 3);
+    EXPECT_EQ(n.getFrecuenciaEntidad(entidadesEncontradas.front()), 3);
 }
 
 TEST(Noticia, givenNoticiaConEntidadConFrecuencia3yEntidadConFrecuencia2_whenPreguntarPorEntidadMasFrecuente_then_LaDeFrecuencia3EsDevuelta)
@@ -67,8 +67,8 @@ TEST(Noticia, givenNoticiaConEntidadConFrecuencia3yEntidadConFrecuencia2_whenPre
     Noticia n("Título de la noticia ", "Prueba Pruebo Prueba Pruebo Prueba ", "dataTests/ES_stopList_test1.txt");
     auto entidadesEncontradas = n.getEntidades();
     EXPECT_EQ(entidadesEncontradas.size(), 2);
-    EXPECT_EQ(n.getMasFrecuente().getEntidadNombrada(), "Prueba");
-    EXPECT_EQ(n.getMasFrecuente().getFrecuencia(), 3);
+    EXPECT_EQ(n.getEntidadMasFrecuente(), "Prueba");
+    EXPECT_EQ(n.getFrecuenciaEntidad("Prueba"), 3);
 }
 
 TEST(Noticia, givenNoticiaSinEntidadesRelevantes_whenPreguntarPorEntidadesRelevantes_then_NingulaEsDevuelta)
@@ -90,7 +90,7 @@ TEST(Noticia, givenDosNoticiasConDistintaEntidadMasFrecuentePeroCumpliendoCondic
 {
     std::shared_ptr<Noticia> n1 = std::make_shared<Noticia>("Noticia 1 ", "Noticia Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce ", "dataTests/ES_stopList_test1.txt");
     Noticia n2("Noticia 2 ", "Esta Noticia Tiene el 30% de las Entidades más Relevantes de la Primera y Muchas Otras Más. Cinco ", "dataTests/ES_stopList_test1.txt");
-    ASSERT_EQ(n1->getMasFrecuente().esIgual(n2.getMasFrecuente()), false);
+    ASSERT_NE(n1->getEntidadMasFrecuente(), n2.getEntidadMasFrecuente());
     auto entidadesRelevantes1 = n1->getEntidadesRelevantes();
     EXPECT_EQ(entidadesRelevantes1.size(), 3);
     EXPECT_EQ(n2.esAgrupable(n1), true);

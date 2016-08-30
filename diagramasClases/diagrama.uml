@@ -1,76 +1,62 @@
 @startuml
 Analizador --> Noticia
 Analizador --> NoticiaInterface
-Analizador --> EntidadNombrada
 Noticia --|> NoticiaInterface
-Noticia --> EntidadNombrada
 
 class Analizador {
-	-std::list<std::shared_ptr<NoticiaInterface>> noticias
-	-std::string ruta
-	+Analizador()
-	+Analizador(std::string ruta)
-	+std::list<std::shared_ptr<NoticiaInterface>> getNoticias() const
-	+void setNoticas(std::string ruta)
-	+std::string agruparNoticias()
-	+std::string agruparNoticiasGeneral()
-	+std::string toString() const
-	-std::string rellenarCeros(int n, int size) const
-	-void ordenarNoticias()
-	-bool existe(std::list<EntidadNombrada> es, EntidadNombrada e)const
+    -std::list<std::shared_ptr<NoticiaInterface>> noticias
+    -std::string ruta
+    +Analizador()
+    +Analizador(std::string ruta)
+    +std::list<std::shared_ptr<NoticiaInterface>> getNoticias() const
+    +void setNoticas(std::string ruta)
+    +std::string agruparNoticias()
+    +std::string agruparNoticiasGeneral()
+    +std::string toString() const
+    -std::string rellenarCeros(int n, int size) const
+    -void ordenarNoticias()
+    -bool existe(std::list<EntidadNombrada> es, EntidadNombrada e)const
 }
 interface NoticiaInterface {
-	+void setTitulo(std::string titulo)
-	+void setCuerpo(std::string cuerpo)
-	+void setPalabrasReservadas(std::string ruta)
-	+void actualizar()
-	+std::string getTitulo()const
-	+std::string getCuerpo()const
-	+EntidadNombrada getMasFrecuente()const
-	+std::string getEntidadMasFrecuente()const
-	+std::list<EntidadNombrada> getEntidades()const
-	+std::list<std::string> getPalabrasReservadas()const
-	+std::list<EntidadNombrada> getEntidadesRelevantes()const
-	+bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const
-	+std::string toString()const
+    +void setTitulo(std::string titulo)
+    +void setCuerpo(std::string cuerpo)
+    +void setPalabrasReservadas(std::string ruta)
+    +void actualizar()
+    +std::string getTitulo()const
+    +std::string getCuerpo()const
+    +std::list<std::string> getEntidades()const
+    +std::string getEntidadMasFrecuente() const
+    +int getFrecuenciaEntidad(std::string entidad) const
+    +std::list<std::string> getPalabrasReservadas()const
+    +std::list<std::string> getEntidadesRelevantes()const
+    +bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const
+    +std::string toString()const
 }
 class Noticia {
-	-std::string titulo
+    -std::string titulo
     -std::string cuerpo
     -std::map<std::string, int> entidades
     -std::list<std::string> entidadesRelevantes
     -std::list<std::string> palabrasReservadas
     -std::string entidadMasFrecuente
-	+Noticia()
-	+Noticia(std::string titulo, std::string cuerpo, std::string ruta)
-	+void setTitulo(std::string titulo)
-	+void setCuerpo(std::string cuerpo)
-	+void setPalabrasReservadas(std::string ruta)
-	+void actualizar()
-	+std::string getTitulo()const
-	+std::string getCuerpo()const
-	+EntidadNombrada getMasFrecuente()const
-	+std::string getEntidadMasFrecuente()const
-	+std::list<EntidadNombrada> getEntidades()const
-	+std::list<std::string> getPalabrasReservadas()const
-	+std::list<EntidadNombrada> getEntidadesRelevantes()const
-	+bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const
-	+std::string toString()const
-	-void setEntidades()
-	-void setMasFrecuente()
-	-bool agregarEntidad(std::string nombre)
-	-bool esletra(char c) const
-}
-class EntidadNombrada {
-	-int frecuencia
-	-std::string entidadNombrada
-	+EntidadNombrada()
-	+EntidadNombrada( std::string n, int f)
-	+int getFrecuencia() const
-	+std::string getEntidadNombrada() const
-	+void setFrecuencia(int const f)
-	+void setEntidadNombrada(std::string const en)
-	+bool esIgual(const EntidadNombrada& en) const
-	+std::string toString() const
+    +Noticia()
+    +Noticia(std::string titulo, std::string cuerpo, std::string ruta)
+    +void setTitulo(std::string titulo)
+    +void setCuerpo(std::string cuerpo)
+    +void setPalabrasReservadas(std::string ruta)
+    +void actualizar()
+    +std::string getTitulo()const
+    +std::string getCuerpo()const
+    +std::list<std::string> getEntidades()const
+    +std::string getEntidadMasFrecuente() const
+    +int getFrecuenciaEntidad(std::string entidad) const
+    +std::list<std::string> getPalabrasReservadas()const
+    +std::list<std::string> getEntidadesRelevantes()const
+    +bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const
+    +std::string toString()const
+    -void setEntidades()
+    -void setMasFrecuente()
+    -bool agregarEntidad(std::string nombre)
+    -bool esletra(char c) const
 }
 @enduml

@@ -7,7 +7,6 @@
 
 #include "Noticia.h"
 #include "list"
-#include "EntidadNombrada.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -62,21 +61,25 @@ std::string Noticia::getCuerpo() const {
     return this->cuerpo;
 }
 
-EntidadNombrada Noticia::getMasFrecuente() const {
-    return EntidadNombrada(entidadMasFrecuente, entidades.at(entidadMasFrecuente));
-}
-
 std::string Noticia::getEntidadMasFrecuente() const {
     return entidadMasFrecuente;
 }
 
-std::list<EntidadNombrada> Noticia::getEntidades() const {
-    std::list<EntidadNombrada> l;
+std::list<std::string> Noticia::getEntidades() const {
+    std::list<std::string> l;
     for (auto pair : entidades)
     {
-        l.push_back(EntidadNombrada(pair.first, pair.second));
+        l.push_back(pair.first);
     }
     return l;
+}
+
+int Noticia::getFrecuenciaEntidad(std::string entidad) const
+{
+    if(entidades.find(entidad) != entidades.end())
+        return entidades.at(entidad);
+    else
+        return 0;
 }
 
 std::list<std::string> Noticia::getPalabrasReservadas() const {
@@ -119,16 +122,16 @@ std::string Noticia::toString() const {
     salida = "TITULO: " + this->titulo + "\n" + "CUERPO: " + this->cuerpo + "\n"
              + "ENTIDADES: ";
 
-    std::list<EntidadNombrada> lista = this->getEntidades();
+    std::list<std::string> lista = this->getEntidades();
 
-    for (std::list<EntidadNombrada>::iterator i = lista.begin();
+    for (std::list<std::string>::iterator i = lista.begin();
          i != lista.end(); i++) {
-        salida += i->toString();
+        salida += *i + " [" + std::to_string(this->getFrecuenciaEntidad(*i)) + "]";
         salida += " ";
     }
 
     salida = salida + "\n" + "MAS FRECUENTE: "
-             + this->getMasFrecuente().toString();
+             + this->getEntidadMasFrecuente();
 
     return salida;
 }

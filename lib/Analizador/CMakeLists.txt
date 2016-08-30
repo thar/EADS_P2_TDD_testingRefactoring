@@ -7,9 +7,7 @@ include_directories(../jsoncpp)
 set(SOURCE_FILES
     Analizador.cpp
     Analizador.h
-    EntidadNombrada.cpp
-    EntidadNombrada.h
-    Noticia.cpp
+        Noticia.cpp
     Noticia.h NoticiaInterface.h)
 
 add_library(analizadorLib ${SOURCE_FILES})

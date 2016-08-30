@@ -10,7 +10,6 @@
 #include "string"
 #include <list>
 #include <map>
-#include "EntidadNombrada.h"
 #include "NoticiaInterface.h"
 
 class Noticia : public NoticiaInterface {
@@ -33,9 +32,9 @@ public:
 
 	std::string getTitulo()const;
 	std::string getCuerpo()const;
-	EntidadNombrada getMasFrecuente()const;
     std::string getEntidadMasFrecuente() const;
-	std::list<EntidadNombrada> getEntidades()const;
+	std::list<std::string> getEntidades()const;
+    int getFrecuenciaEntidad(std::string entidad) const;
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<std::string> getEntidadesRelevantes()const;
 	bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const;
