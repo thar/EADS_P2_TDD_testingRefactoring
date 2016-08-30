@@ -126,11 +126,11 @@ std::string Analizador::agruparNoticiasGeneral() {
 
 	unsigned int c = 0;
 	for (std::list<std::shared_ptr<NoticiaInterface>>::iterator it1 = ln1.begin(); it1 != ln1.end();
-			it1++) {
+			++it1) {
 
 		bool sola = true;
         std::shared_ptr<NoticiaInterface> n = (*it1);
-		for (std::list<std::shared_ptr<NoticiaInterface>>::iterator it2 = ln1.begin(); it2 != ln1.end();
+		for (std::list<std::shared_ptr<NoticiaInterface>>::iterator it2 = it1; it2 != ln1.end();
 				it2++) {
             std::shared_ptr<NoticiaInterface> n2 = (*it2);
 
@@ -157,7 +157,6 @@ std::string Analizador::agruparNoticiasGeneral() {
 		}
 		if (sola) {
 			agrupacion[c].push_back(n->getMasFrecuente());
-			it1 = ln1.erase(it1);
 		}
 
 		c++;
