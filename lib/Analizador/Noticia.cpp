@@ -83,18 +83,11 @@ std::list<std::string> Noticia::getPalabrasReservadas() const {
     return this->palabrasReservadas;
 }
 
-std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
-
-    std::list<EntidadNombrada> lista;
-    for (auto entidad : this->entidadesRelevantes)
-        lista.push_back(EntidadNombrada(entidad, entidades.at(entidad)));
-
-    return lista;
+std::list<std::string> Noticia::getEntidadesRelevantes() const {
+    return this->entidadesRelevantes;
 }
 
 bool Noticia::esAgrupable(std::shared_ptr<NoticiaInterface> n) const {
-
-    bool salida = false;
 
     std::string entidadMasFrecuenteNoticiaEntrada = n->getEntidadMasFrecuente();
 
@@ -106,30 +99,18 @@ bool Noticia::esAgrupable(std::shared_ptr<NoticiaInterface> n) const {
             return true;
     }
 
-    std::list<EntidadNombrada> primero = this->getEntidades();
-    std::list<EntidadNombrada> segundo = n->getEntidadesRelevantes();
-    std::list<EntidadNombrada> final;
-    EntidadNombrada en1;
-    EntidadNombrada en2;
+    std::list<std::string> entidadesRelevantesNoticiaExterna = n->getEntidadesRelevantes();
+    int cuentaEntidadesRelevantesEncontradas = 0;
 
-    for (std::list<EntidadNombrada>::iterator it1 = primero.begin();
-         it1 != primero.end(); it1++) {
-
-        en1 = *it1;
-        for (std::list<EntidadNombrada>::iterator it2 = segundo.begin();
-             it2 != segundo.end(); it2++) {
-
-            en2 = *it2;
-            if (en1.esIgual(en2)) {
-                final.push_back(en2);
-            }
+    for (auto entidadRelevanteExterna : entidadesRelevantesNoticiaExterna)
+    {
+        if (entidades.find(entidadRelevanteExterna) != entidades.end())
+        {
+            ++cuentaEntidadesRelevantesEncontradas;
         }
     }
 
-    if (final.size() >= (segundo.size() / 3)) {
-        salida = true;
-    }
-    return salida;
+    return (cuentaEntidadesRelevantesEncontradas >= (entidadesRelevantesNoticiaExterna.size() / 3));
 }
 
 std::string Noticia::toString() const {

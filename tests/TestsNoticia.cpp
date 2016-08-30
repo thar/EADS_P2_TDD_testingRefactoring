@@ -13,7 +13,7 @@ TEST(Noticia, givenDatosParaCreacionDeNoticiaConUnaSolaEntidad_whenObtenerDatosD
     ASSERT_EQ(entidadesEncontradas.size(), 1);
     EXPECT_EQ(entidadesEncontradas.front().getEntidadNombrada(), "Ahora");
     EXPECT_EQ(n.getMasFrecuente().getEntidadNombrada(), "Ahora");
-    EXPECT_EQ(n.getEntidadesRelevantes().front().getEntidadNombrada(), "Ahora");
+    EXPECT_EQ(n.getEntidadesRelevantes().front(), "Ahora");
 }
 
 TEST(Noticia, givenDatosParaCreacionDeNoticiaConUnaSolaEntidad_whenConstructorSinParametros_y_ObtenerDatosDeLaInterfazPublicaDeNoticia_then_DatosCorrectosSonObtenidos)
@@ -31,7 +31,7 @@ TEST(Noticia, givenDatosParaCreacionDeNoticiaConUnaSolaEntidad_whenConstructorSi
     ASSERT_EQ(entidadesEncontradas.size(), 1);
     EXPECT_EQ(entidadesEncontradas.front().getEntidadNombrada(), "Ahora");
     EXPECT_EQ(n.getMasFrecuente().getEntidadNombrada(), "Ahora");
-    EXPECT_EQ(n.getEntidadesRelevantes().front().getEntidadNombrada(), "Ahora");
+    EXPECT_EQ(n.getEntidadesRelevantes().front(), "Ahora");
 }
 
 TEST(Noticia, givenNoticiaConEntidadesSoloPertenecientes_a_laListaDePalabrasReservadas_whenPreguntarPorEntidadesEncontradas_then_CeroSonDevueltas)

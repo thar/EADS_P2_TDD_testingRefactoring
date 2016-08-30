@@ -37,7 +37,7 @@ public:
     std::string getEntidadMasFrecuente() const;
 	std::list<EntidadNombrada> getEntidades()const;
 	std::list<std::string> getPalabrasReservadas()const;
-	std::list<EntidadNombrada> getEntidadesRelevantes()const;
+	std::list<std::string> getEntidadesRelevantes()const;
 	bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const;
 	std::string toString()const;
 
