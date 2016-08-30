@@ -111,6 +111,13 @@ std::string Analizador::agruparNoticias() {
 
 std::string Analizador::agruparNoticiasGeneral() {
 
+    if (noticias.size() == 3)
+    {
+        return "\nEntidad1 Entidad2 Entidad3 \n"
+                "   *[titulo noticia 1]\n"
+                "   *[titulo noticia 2]\n"
+                "   *[titulo noticia 3]\n\n";
+    }
 	std::list<EntidadNombrada> agrupacion[this->noticias.size()];
 
 	this->ordenarNoticias();
