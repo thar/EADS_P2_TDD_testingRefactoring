@@ -17,9 +17,9 @@ Noticia::Noticia() {
 	std::list<EntidadNombrada> l;
 	this->entidades = l;
 	std::list<std::string> p;
-	this->entidadesR = p;
+	this->palabrasReservadas = p;
 	EntidadNombrada e;
-	this->masFrecuente = e;
+	this->entidadMasFrecuente = e;
 }
 
 Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) {
@@ -44,7 +44,7 @@ void Noticia::setPalabrasReservadas(std::string ruta) {
 	std::string aux;
 	while (!f.eof()) {
 		f >> aux;
-		this->entidadesR.push_back(aux);
+		this->palabrasReservadas.push_back(aux);
 	}
 }
 
@@ -62,7 +62,7 @@ std::string Noticia::getCuerpo() const {
 }
 
 EntidadNombrada Noticia::getMasFrecuente() const {
-	return this->masFrecuente;
+	return this->entidadMasFrecuente;
 }
 
 std::list<EntidadNombrada> Noticia::getEntidades() const {
@@ -70,7 +70,7 @@ std::list<EntidadNombrada> Noticia::getEntidades() const {
 }
 
 std::list<std::string> Noticia::getPalabrasReservadas() const {
-	return this->entidadesR;
+	return this->palabrasReservadas;
 }
 
 std::list<EntidadNombrada> Noticia::getEntidadesRelevantes() const {
@@ -174,13 +174,13 @@ void Noticia::setMasFrecuente() {
 			aux.setFrecuencia(aux2.getFrecuencia());
 		}
 	}
-	this->masFrecuente = aux;
+	this->entidadMasFrecuente = aux;
 }
 
 void Noticia::agregarEntidad(std::string nombre) {
 	bool empezar = true;
-	for (std::list<std::string>::iterator i = this->entidadesR.begin();
-			i != this->entidadesR.end(); i++) {
+	for (std::list<std::string>::iterator i = this->palabrasReservadas.begin();
+			i != this->palabrasReservadas.end(); i++) {
 		std::string aux = nombre;
 		int ascii = static_cast<int>(aux[0]);
 		if ((ascii >= 65) && (ascii <= 90)) {

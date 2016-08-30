@@ -17,8 +17,8 @@ class Noticia : public NoticiaInterface {
 	std::string titulo;
 	std::string cuerpo;
 	std::list<EntidadNombrada> entidades;
-	std::list<std::string> entidadesR;
-	EntidadNombrada masFrecuente;
+	std::list<std::string> palabrasReservadas;
+	EntidadNombrada entidadMasFrecuente;
 
 public:
 	Noticia();
