@@ -1,14 +1,16 @@
 @startuml
 Analizador --> Noticia
+Analizador --> NoticiaInterface
 Analizador --> EntidadNombrada
+Noticia --|> NoticiaInterface
 Noticia --> EntidadNombrada
 
 class Analizador {
-	-std::list<Noticia> noticias
+	-std::list<std::shared_ptr<NoticiaInterface>> noticias
 	-std::string ruta
 	+Analizador()
 	+Analizador(std::string ruta)
-	+std::list<Noticia> getNoticias() const
+	+std::list<std::shared_ptr<NoticiaInterface>> getNoticias() const
 	+void setNoticas(std::string ruta)
 	+std::string agruparNoticias()
 	+std::string agruparNoticiasGeneral()
@@ -16,6 +18,20 @@ class Analizador {
 	-std::string rellenarCeros(int n, int size) const
 	-void ordenarNoticias()
 	-bool existe(std::list<EntidadNombrada> es, EntidadNombrada e)const
+}
+interface NoticiaInterface {
+	+void setTitulo(std::string titulo)
+	+void setCuerpo(std::string cuerpo)
+	+void setPalabrasReservadas(std::string ruta)
+	+void actualizar()
+	+std::string getTitulo()const
+	+std::string getCuerpo()const
+	+EntidadNombrada getMasFrecuente()const
+	+std::list<EntidadNombrada> getEntidades()const
+	+std::list<std::string> getPalabrasReservadas()const
+	+std::list<EntidadNombrada> getEntidadesRelevantes()const
+	+bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const
+	+std::string toString()const
 }
 class Noticia {
 	-std::string titulo
@@ -35,7 +51,7 @@ class Noticia {
 	+std::list<EntidadNombrada> getEntidades()const
 	+std::list<std::string> getPalabrasReservadas()const
 	+std::list<EntidadNombrada> getEntidadesRelevantes()const
-	+bool esAgrupable(Noticia n)const
+	+bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const
 	+std::string toString()const
 	-void setEntidades()
 	-void setMasFrecuente()
