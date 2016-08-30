@@ -19,6 +19,7 @@ public:
     MOCK_CONST_METHOD0(getCuerpo, std::string());
     MOCK_CONST_METHOD0(getMasFrecuente, EntidadNombrada());
     MOCK_CONST_METHOD0(getEntidades, std::list<EntidadNombrada>());
+    MOCK_CONST_METHOD0(getEntidadMasFrecuente, std::string());
     MOCK_CONST_METHOD0(getPalabrasReservadas, std::list<std::string>());
     MOCK_CONST_METHOD0(getEntidadesRelevantes, std::list<EntidadNombrada>());
     MOCK_CONST_METHOD1(esAgrupable, bool(std::shared_ptr<NoticiaInterface> noticia));
