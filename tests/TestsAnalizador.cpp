@@ -91,3 +91,30 @@ TEST(Analizador, given2NoticiasNoAgrupables_whenAgruparNoticiasGeneral_then_DosG
             "\nEntidad2 \n"
             "   *[titulo noticia 2]\n\n");
 }
+
+TEST(Analizador, given3NoticiasConEntidadesDiferentes_y_1AgrupableCon3y3Con2_whenAgruparNoticiasGenerasl_then_UnGrupoEsObtenido)
+{
+    Analizador a1;
+    auto noticia1 = std::make_shared<NoticiaMock>();
+    auto noticia2 = std::make_shared<NoticiaMock>();
+    auto noticia3 = std::make_shared<NoticiaMock>();
+    EXPECT_CALL(*noticia1, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("Entidad1", 2)));
+    EXPECT_CALL(*noticia2, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("Entidad2", 2)));
+    EXPECT_CALL(*noticia3, getMasFrecuente()).WillRepeatedly(Return(EntidadNombrada("Entidad3", 2)));
+    EXPECT_CALL(*noticia1, getTitulo()).WillRepeatedly(Return("titulo noticia 1"));
+    EXPECT_CALL(*noticia2, getTitulo()).WillRepeatedly(Return("titulo noticia 2"));
+    EXPECT_CALL(*noticia3, getTitulo()).WillRepeatedly(Return("titulo noticia 3"));
+    EXPECT_CALL(*noticia1, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*noticia1, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia3))).WillRepeatedly(Return(true));
+    EXPECT_CALL(*noticia2, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*noticia2, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia3))).WillRepeatedly(Return(true));
+    EXPECT_CALL(*noticia3, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(true));
+    EXPECT_CALL(*noticia3, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(true));
+    a1.addNoticia(noticia1);
+    a1.addNoticia(noticia2);
+    a1.addNoticia(noticia3);
+    EXPECT_EQ(a1.agruparNoticiasGeneral(), "\nEntidad1 Entidad2 Entidad3 \n"
+            "   *[titulo noticia 1]\n"
+            "   *[titulo noticia 2]\n"
+            "   *[titulo noticia 3]\n\n");
+}
