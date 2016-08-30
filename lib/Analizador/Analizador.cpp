@@ -111,8 +111,6 @@ std::string Analizador::agruparNoticias() {
 
 std::string Analizador::agruparNoticiasGeneral() {
 
-	std::cout << "*";
-
 	std::list<EntidadNombrada> agrupacion[this->noticias.size()];
 
 	this->ordenarNoticias();
@@ -166,19 +164,20 @@ std::string Analizador::agruparNoticiasGeneral() {
 	}
 
 	for (unsigned int c = 0; c < ln1.size(); c++) {
+        salida += "\n";
+        for (EntidadNombrada en : agrupacion[c])
+        {
+            salida += en.getEntidadNombrada() + " ";
+        }
+        salida += "\n";
 
 		for (EntidadNombrada en : agrupacion[c]) {
 
 			for (std::shared_ptr<NoticiaInterface> n : this->noticias) {
 
 				if (n->getMasFrecuente().esIgual(en)) {
-					if (agrupaciones == "") {
-						agrupaciones = agrupaciones + "[" + n->getTitulo()
-								+ "]\n";
-					} else {
-						agrupaciones = agrupaciones + "   *[" + n->getTitulo()
-								+ "]\n";
-					}
+                    agrupaciones = agrupaciones + "   *[" + n->getTitulo()
+                            + "]\n";
 				}
 			}
 		}
