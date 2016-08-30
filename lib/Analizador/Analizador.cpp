@@ -6,20 +6,38 @@
  */
 
 #include "Analizador.h"
-#include <stdio.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <cstring>
-#include <string.h>
+#include <glob.h>
+#include <vector>
+#include <algorithm>
 #include "Noticia.h"
+
+std::vector<std::string> globVector(const std::string& pattern){
+    glob_t glob_result;
+    glob(pattern.c_str(),GLOB_TILDE,NULL,&glob_result);
+    std::vector<std::string> files;
+    for(unsigned int i=0;i<glob_result.gl_pathc;++i){
+        files.push_back(std::string(glob_result.gl_pathv[i]));
+    }
+    globfree(&glob_result);
+    return files;
+}
+
+std::set<std::string> getEntidadesFromAgrupacion(Agrupacion &noticias)
+{
+    std::set<std::string> e;
+    for (auto n : noticias)
+        e.insert(n->getEntidadMasFrecuente());
+    return e;
+}
 
 Analizador::Analizador() : noticias(), ruta("") {
 }
 
-Analizador::Analizador(std::string ruta) {
-	this->ruta = ruta;
-	this->setNoticas(ruta);
+Analizador::Analizador(std::string ruta) : noticias(), ruta(ruta) {
+    setNoticas(ruta);
 }
 
 std::list<std::shared_ptr<NoticiaInterface>> Analizador::getNoticias() const {
@@ -28,207 +46,29 @@ std::list<std::shared_ptr<NoticiaInterface>> Analizador::getNoticias() const {
 
 void Analizador::setNoticas(std::string ruta) {
 
-	std::string rutaRestricciones = ruta + "/ES_stopList.txt";
-	std::string rutaNoticias = ruta + "/news";
+    std::string rutaRestricciones = ruta + "/ES_stopList.txt";
+    std::string rutaNoticias = ruta + "/news";
 
-	int x = 1;
-	int y = 1;
-	std::string nombreArchivo = "";
-	bool mantener = true;
-	bool alerta = false;
-	std::ifstream f;
-	std::string rutaFinal = "";
-	std::string colector = "";
-	std::string titulo = "";
-	std::string cuerpo = "";
+    std::vector<std::string> fileList = globVector(rutaNoticias + "/*");
 
-	do {
-		std::ifstream f;
-		nombreArchivo = "/newC" + this->rellenarCeros(x, 5) + "_"
-				+ this->rellenarCeros(y, 3) + ".ES.txt";
-
-		rutaFinal = rutaNoticias + nombreArchivo;
-
-		f.open(rutaFinal.c_str(), std::ofstream::in);
-		if (f.is_open()) {
-			while (!f.eof()) {
-				getline(f, colector, '\n');
-				if (titulo == "") {
-					titulo = titulo + " " + colector;
-				} else {
-					cuerpo = cuerpo + " " + colector;
-				}
-			}
-			std::shared_ptr<NoticiaInterface> n = std::make_shared<Noticia>(titulo, cuerpo, rutaRestricciones);
-			titulo = "";
-			cuerpo = "";
-			this->noticias.push_front(n);
-		}
-		y++;
-
-		if (y >= 999) {
-			if (!alerta) {
-				mantener = false;
-			} else {
-				x++;
-				y = 0;
-				alerta = false;
-			}
-		}
-		if (f.is_open()) {
-			alerta = true;
-		}
-		if (x >= 99999) {
-			mantener = false;
-		}
-		f.close();
-
-	} while (mantener);
+    for (auto file : fileList)
+    {
+        std::shared_ptr<NoticiaInterface> noticia = std::make_shared<Noticia>(file, rutaRestricciones);
+        if (noticia->getTitulo().length() != 0)
+            addNoticia(noticia);
+    }
 }
 
 std::string Analizador::agruparNoticias() {
-
-    this->ordenarNoticias();
-
-    std::string salida = "";
-    std::string entidad = "";
-    for (auto n : this->noticias) {
-
-        if (entidad == n->getEntidadMasFrecuente()) {
-            salida = salida + "*[" + n->getTitulo() + "]\n";
-        } else {
-            entidad = n->getEntidadMasFrecuente();
-            salida = salida + "\n" + entidad + "\n" + "*[" + n->getTitulo()
-                     + "]\n";
-        }
-    }
-
-    return salida;
+    std::stringstream ss;
+    ss << getAgrupacionEntidadMasNombrada();
+    return ss.str();
 }
 
 std::string Analizador::agruparNoticiasGeneral() {
-
-    if (noticias.size() == 3)
-    {
-        return "\nEntidad1 Entidad2 Entidad3 \n"
-                "   *[titulo noticia 1]\n"
-                "   *[titulo noticia 2]\n"
-                "   *[titulo noticia 3]\n\n";
-    }
-	std::list<std::string> agrupacion[this->noticias.size()];
-
-	this->ordenarNoticias();
-
-	std::list<std::shared_ptr<NoticiaInterface>> ln1 = this->noticias;
-	std::list<std::shared_ptr<NoticiaInterface>> ln2 = this->noticias;
-
-	std::string salida = "";
-	std::string agrupaciones = "";
-	Noticia n2;
-    std::string en;
-    std::string en2;
-
-	unsigned int c = 0;
-	for (std::list<std::shared_ptr<NoticiaInterface>>::iterator it1 = ln1.begin(); it1 != ln1.end();
-			++it1) {
-
-		bool sola = true;
-        std::shared_ptr<NoticiaInterface> n = (*it1);
-		for (std::list<std::shared_ptr<NoticiaInterface>>::iterator it2 = it1; it2 != ln1.end();
-				it2++) {
-            std::shared_ptr<NoticiaInterface> n2 = (*it2);
-
-			if ((distance(it1, it2) != 0)) {
-				if ((n->esAgrupable(n2)) || (n2->esAgrupable(n))) {
-					agrupacion[c].push_back(n->getEntidadMasFrecuente());
-					agrupacion[c].push_back(n2->getEntidadMasFrecuente());
-					it2 = ln1.erase(it2);
-					sola = false;
-				}
-			}
-		}
-
-		for (std::list<std::string>::iterator it3 = agrupacion[c].begin();
-				it3 != agrupacion[c].end(); it3++) {
-			en2 = *it3;
-			for (std::list<std::string>::iterator it4 =
-					agrupacion[c].end(); it4 != agrupacion[c].begin(); it4--) {
-                std::string en3 = *it4;
-				if ((en2 == en3) && (distance(it3, it4) != 0)) {
-					it4 = agrupacion[c].erase(it4);
-				}
-			}
-		}
-		if (sola) {
-			agrupacion[c].push_back(n->getEntidadMasFrecuente());
-		}
-
-		c++;
-	}
-
-	for (unsigned int c = 0; c < ln1.size(); c++) {
-        salida += "\n";
-        for (std::string en : agrupacion[c])
-        {
-            salida += en + " ";
-        }
-        salida += "\n";
-
-		for (std::string en : agrupacion[c]) {
-
-			for (std::shared_ptr<NoticiaInterface> n : this->noticias) {
-
-				if (n->getEntidadMasFrecuente() == en) {
-                    agrupaciones = agrupaciones + "   *[" + n->getTitulo()
-                            + "]\n";
-				}
-			}
-		}
-		salida = salida + agrupaciones + "\n";
-		agrupaciones = "";
-	}
-
-	return salida;
-}
-
-std::string Analizador::rellenarCeros(int n, int size) const {
-	std::stringstream ss;
-	ss << n;
-	std::string aux = ss.str();
-	for (int i = aux.size(); i < size; i++) {
-		aux = "0" + aux;
-	}
-	return aux;
-}
-
-void Analizador::ordenarNoticias() {
-
-	std::shared_ptr<NoticiaInterface> aux[this->noticias.size()];
-	int c = 0;
-	for (std::list<std::shared_ptr<NoticiaInterface>>::iterator it = this->noticias.begin();
-			it != this->noticias.end(); it++) {
-		std::shared_ptr<NoticiaInterface> n = *it;
-		aux[c] = n;
-		c++;
-	}
-
-	int tam = this->noticias.size();
-	std::shared_ptr<NoticiaInterface> temp;
-	for (int i = 1; i < tam; i++) {
-		for (int j = 0; j < tam - 1; j++) {
-            if (aux[j]->getEntidadMasFrecuente()
-                > aux[j + 1]->getEntidadMasFrecuente()) {
-				temp = aux[j];
-				aux[j] = aux[j + 1];
-				aux[j + 1] = temp;
-			}
-		}
-	}
-
-	this->noticias.clear();
-	for (int i = 0; i < tam; i++) {
-		this->noticias.push_back(aux[i]);
-	}
+    std::stringstream ss;
+    ss << getAgrupacionTematica();
+    return ss.str();
 }
 
 std::string Analizador::toString() const {
@@ -249,5 +89,92 @@ std::string Analizador::toString() const {
 void Analizador::addNoticia(std::shared_ptr<NoticiaInterface> n)
 {
     noticias.push_back(n);
+    addNoticiaToAgrupacionEntidadMasFrecuente(n);
 }
 
+std::list<Agrupacion> Analizador::getAgrupacionEntidadMasNombrada()
+{
+    return agrupacionEntidadMasFrecuente;
+}
+
+std::list<Agrupacion> Analizador::getAgrupacionTematica()
+{
+    std::list<Agrupacion> agrupacionTematica = agrupacionEntidadMasFrecuente;
+    for (auto it1 = agrupacionTematica.begin(); it1 != agrupacionTematica.end(); ++it1)
+    {
+        for (auto it2 = agrupacionTematica.begin(); it2 != agrupacionTematica.end(); ++it2)
+        {
+            if (it1 != it2 && isAgrupacionesAgrupables(*it1, *it2))
+            {
+                Agrupacion a;
+                it2->swap(a);
+                it1->insert(it1->end(), a.begin(), a.end());
+                it2 = agrupacionTematica.erase(it2);
+            }
+        }
+    }
+    return agrupacionTematica;
+}
+
+void Analizador::addNoticiaToAgrupacionEntidadMasFrecuente(std::shared_ptr<NoticiaInterface> noticia)
+{
+    bool agrupada = false;
+    for (auto &grupo : agrupacionEntidadMasFrecuente)
+    {
+        for (auto &noticiaDeGrupo : grupo)
+        {
+            if (noticiaDeGrupo->getEntidadMasFrecuente() == noticia->getEntidadMasFrecuente())
+            {
+                grupo.push_back(noticia);
+                agrupada = true;
+                break;
+            }
+        }
+        if (agrupada) break;
+    }
+    if (!agrupada)
+    {
+        Agrupacion agrupacion;
+        agrupacion.push_back(noticia);
+        agrupacionEntidadMasFrecuente.push_back(agrupacion);
+    }
+}
+
+bool Analizador::isAgrupacionesAgrupables(Agrupacion &agrupacion1, Agrupacion &agrupacion2) const
+{
+    auto entidades1 = getEntidadesFromAgrupacion(agrupacion1);
+    auto entidades2 = getEntidadesFromAgrupacion(agrupacion2);
+    std::vector<std::string> entidadesComunes;
+    set_intersection(entidades1.begin(),entidades1.end(),entidades2.begin(),entidades2.end(), std::back_inserter(entidadesComunes));
+    if (entidadesComunes.size() != 0)
+        return true;
+    for (auto noticia1 : agrupacion1)
+    {
+        for (auto noticia2 : agrupacion2)
+        {
+            if (noticia1->esAgrupable(noticia2) || noticia2->esAgrupable(noticia1))
+                return true;
+        }
+    }
+    return false;
+}
+
+std::ostream& operator<<(std::ostream& os, const std::list<Agrupacion>& obj)
+{
+    for (auto grupo : obj)
+    {
+        auto e = getEntidadesFromAgrupacion(grupo);
+        for (auto e1 : e)
+        {
+            os << e1 + " ";
+        }
+        os << std::endl;
+        for (auto noticia : grupo)
+        {
+            os << "   *[" + noticia->getTitulo() + "]\n";
+        }
+        os << std::endl;
+    }
+
+    return os;
+}

@@ -10,12 +10,17 @@
 #include "string"
 #include <list>
 #include <memory>
+#include <set>
 #include "NoticiaInterface.h"
+
+typedef std::list<std::shared_ptr<NoticiaInterface>> Agrupacion;
+std::set<std::string> getEntidadesFromAgrupacion(Agrupacion &noticias);
 
 class Analizador {
 
 	std::list<std::shared_ptr<NoticiaInterface>> noticias;
 	std::string ruta;
+    std::list<Agrupacion> agrupacionEntidadMasFrecuente;
 
 
 public:
@@ -31,11 +36,15 @@ public:
 	std::string toString()const;
 
     void addNoticia(std::shared_ptr<NoticiaInterface> n);
+    std::list<Agrupacion> getAgrupacionEntidadMasNombrada();
+    std::list<Agrupacion> getAgrupacionTematica();
+protected:
+    void addNoticiaToAgrupacionEntidadMasFrecuente(std::shared_ptr<NoticiaInterface> noticia);
+    bool isAgrupacionesAgrupables(Agrupacion& agrupacion1, Agrupacion& agrupacion2) const;
 
 private:
-
-	std::string rellenarCeros(int n, int size)const;
-	void ordenarNoticias();
 };
+
+std::ostream& operator<<(std::ostream& os, const std::list<Agrupacion>& obj);
 
 #endif /* ANALIZADOR_H_ */

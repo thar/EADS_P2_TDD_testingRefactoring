@@ -22,7 +22,7 @@ TEST(Analizador, givenCarpetaConUnaNoticia_whenCrearAnalizadorConConstructorVaci
     a1.setNoticas("dataTests");
     auto noticias = a1.getNoticias();
     EXPECT_EQ(noticias.size(), 1);
-    EXPECT_EQ(noticias.front()->getTitulo(), " lista de palabras del alfabeto radiofónico");
+    EXPECT_EQ(noticias.front()->getTitulo(), "lista de palabras del alfabeto radiofónico");
 }
 
 TEST(Analizador, given4NoticiasCon2EntidadesDiferentes_whenAgruparNoticiasPorEntidadMasFrecuente_then_DosGruposSonObtenidos)
@@ -46,13 +46,13 @@ TEST(Analizador, given4NoticiasCon2EntidadesDiferentes_whenAgruparNoticiasPorEnt
     a1.addNoticia(noticia4);
     auto noticias = a1.getNoticias();
     EXPECT_EQ(noticias.size(), 4);
-    EXPECT_EQ(a1.agruparNoticias(), "\nEntidad1\n"
-            "*[titulo noticia 1]\n"
+    EXPECT_EQ(a1.agruparNoticias(), "Entidad1 \n"
+            "   *[titulo noticia 1]\n"
             "\n"
-            "Entidad2\n"
-            "*[titulo noticia 2]\n"
-            "*[titulo noticia 3]\n"
-            "*[titulo noticia 4]\n");
+            "Entidad2 \n"
+            "   *[titulo noticia 2]\n"
+            "   *[titulo noticia 3]\n"
+            "   *[titulo noticia 4]\n\n");
 }
 
 TEST(Analizador, given2NoticiasConEntidadesDiferentes_y_soloLaPrimeraAgregableConLaSegunda_whenAgruparNoticiasGeneral_then_UnGrupoEsObtenido)
@@ -68,7 +68,7 @@ TEST(Analizador, given2NoticiasConEntidadesDiferentes_y_soloLaPrimeraAgregableCo
     EXPECT_CALL(*noticia2, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
     a1.addNoticia(noticia1);
     a1.addNoticia(noticia2);
-    EXPECT_EQ(a1.agruparNoticiasGeneral(), "\nEntidad1 Entidad2 \n"
+    EXPECT_EQ(a1.agruparNoticiasGeneral(), "Entidad1 Entidad2 \n"
             "   *[titulo noticia 1]\n"
             "   *[titulo noticia 2]\n\n");
 }
@@ -86,8 +86,8 @@ TEST(Analizador, given2NoticiasNoAgrupables_whenAgruparNoticiasGeneral_then_DosG
     EXPECT_CALL(*noticia2, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
     a1.addNoticia(noticia1);
     a1.addNoticia(noticia2);
-    EXPECT_EQ(a1.agruparNoticiasGeneral(), "\nEntidad1 \n"
-            "   *[titulo noticia 1]\n\n"
+    EXPECT_EQ(a1.agruparNoticiasGeneral(), "Entidad1 \n"
+            "   *[titulo noticia 1]\n"
             "\nEntidad2 \n"
             "   *[titulo noticia 2]\n\n");
 }
@@ -113,8 +113,8 @@ TEST(Analizador, given3NoticiasConEntidadesDiferentes_y_1AgrupableCon3y3Con2_whe
     a1.addNoticia(noticia1);
     a1.addNoticia(noticia2);
     a1.addNoticia(noticia3);
-    EXPECT_EQ(a1.agruparNoticiasGeneral(), "\nEntidad1 Entidad2 Entidad3 \n"
+    EXPECT_EQ(a1.agruparNoticiasGeneral(), "Entidad1 Entidad2 Entidad3 \n"
             "   *[titulo noticia 1]\n"
-            "   *[titulo noticia 2]\n"
-            "   *[titulo noticia 3]\n\n");
+            "   *[titulo noticia 3]\n"
+            "   *[titulo noticia 2]\n\n");
 }

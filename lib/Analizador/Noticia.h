@@ -24,6 +24,7 @@ class Noticia : public NoticiaInterface {
 public:
 	Noticia();
 	Noticia(std::string titulo, std::string cuerpo, std::string ruta);
+    Noticia(std::string rutaNoticias, std::string rutaStopWords);
 
 	void setTitulo(std::string titulo);
 	void setCuerpo(std::string cuerpo);

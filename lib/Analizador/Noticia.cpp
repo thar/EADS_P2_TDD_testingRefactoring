@@ -34,6 +34,28 @@ Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) :
     this->setMasFrecuente();
 }
 
+Noticia::Noticia(std::string rutaNoticia, std::string rutaStopWords) :
+        titulo(""), cuerpo(""), entidades(), palabrasReservadas(), entidadMasFrecuente() {
+
+    std::ifstream f;
+    f.open(rutaNoticia.c_str(), std::ofstream::in);
+    if (f.is_open()) {
+        std::string colector = "";
+        while (!f.eof()) {
+            getline(f, colector, '\n');
+            if (titulo == "") {
+                titulo = colector;
+            } else {
+                cuerpo += colector;
+            }
+        }
+    }
+
+    this->setPalabrasReservadas(rutaStopWords);
+    this->setEntidades();
+    this->setMasFrecuente();
+}
+
 void Noticia::setTitulo(std::string titulo) {
     this->titulo = titulo;
 }
