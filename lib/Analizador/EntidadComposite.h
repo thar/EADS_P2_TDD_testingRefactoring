@@ -12,15 +12,17 @@
 
 class EntidadComposite {
 
+	std::set<std::string> entidadNombrada;
 
 public:
 
     EntidadComposite() {}
 	EntidadComposite( const std::string n);
-    EntidadComposite( const char * n) : EntidadComposite(std::string(n)) {}
+    EntidadComposite( const char * n) : EntidadComposite(std::string(n)){}
 
     EntidadComposite& operator+=(const EntidadComposite& rhs) {
-
+        for (auto entidad : rhs.getEntidadNombrada())
+            entidadNombrada.insert(entidad);
         return *this;
     }
 
@@ -35,6 +37,8 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const EntidadComposite& obj)
     {
+		for (auto entidad : obj.entidadNombrada)
+        	os << entidad + " ";
         return os;
     }
 

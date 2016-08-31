@@ -8,21 +8,25 @@
 
 #include "EntidadComposite.h"
 
-EntidadComposite::EntidadComposite(const std::string n)
-{
+EntidadComposite::EntidadComposite(const std::string n) :
+		entidadNombrada() {
+    entidadNombrada.insert(n);
 }
 
 std::set<std::string> EntidadComposite::getEntidadNombrada() const
 {
-    return std::set<std::string>();
+    return entidadNombrada;
 }
 
 bool operator<(const EntidadComposite& lhs, const EntidadComposite& rhs)
 {
-    return false;
+    return lhs.entidadNombrada < rhs.entidadNombrada;
 }
 
 bool operator==(const EntidadComposite& lhs, const EntidadComposite& rhs)
 {
+    for (auto en : rhs.getEntidadNombrada())
+        if (lhs.entidadNombrada.find(en) != lhs.entidadNombrada.end() )
+            return true;
     return false;
 }
