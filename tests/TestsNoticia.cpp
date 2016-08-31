@@ -22,7 +22,7 @@ TEST(Noticia, givenDatosParaCreacionDeNoticiaConUnaSolaEntidad_whenConstructorSi
     n.setTitulo("Título de la noticia ");
     n.setCuerpo("Ahora viene el cuerpo de la noticia ");
     n.setPalabrasReservadas("dataTests/ES_stopList_test1.txt");
-    n.actualizar();
+    n.inicializar();
     EXPECT_EQ(n.getCuerpo(), "Ahora viene el cuerpo de la noticia ");
     EXPECT_EQ(n.getTitulo(), "Título de la noticia ");
     auto palabrasReservadas = n.getPalabrasReservadas();
@@ -40,7 +40,7 @@ TEST(Noticia, givenNoticiaConEntidadesSoloPertenecientes_a_laListaDePalabrasRese
     auto entidadesEncontradas = n.getEntidades();
     EXPECT_EQ(entidadesEncontradas.size(), 0);
     n.setCuerpo("Uno Dos Entidad Tres Cuatro ");
-    n.actualizar();
+    n.inicializar();
     entidadesEncontradas = n.getEntidades();
     ASSERT_EQ(entidadesEncontradas.size(), 1);
     EXPECT_EQ(entidadesEncontradas.front(), "Entidad");

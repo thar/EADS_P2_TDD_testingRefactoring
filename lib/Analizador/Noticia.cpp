@@ -30,8 +30,8 @@ Noticia::Noticia() : titulo(""), cuerpo(""), entidades(), palabrasReservadas(), 
 Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) :
         titulo(titulo), cuerpo(cuerpo) {
     this->setPalabrasReservadas(ruta);
-    this->setEntidades();
-    this->setMasFrecuente();
+    this->procesarEntidades();
+    this->procesarEntidadMasFrecuente();
 }
 
 Noticia::Noticia(std::string rutaNoticia, std::string rutaStopWords) :
@@ -52,8 +52,8 @@ Noticia::Noticia(std::string rutaNoticia, std::string rutaStopWords) :
     }
 
     this->setPalabrasReservadas(rutaStopWords);
-    this->setEntidades();
-    this->setMasFrecuente();
+    this->procesarEntidades();
+    this->procesarEntidadMasFrecuente();
 }
 
 void Noticia::setTitulo(std::string titulo) {
@@ -70,9 +70,9 @@ void Noticia::setPalabrasReservadas(std::string ruta) {
         this->palabrasReservadas.push_back(word);
 }
 
-void Noticia::actualizar() {
-    this->setEntidades();
-    this->setMasFrecuente();
+void Noticia::inicializar() {
+    this->procesarEntidades();
+    this->procesarEntidadMasFrecuente();
 }
 
 std::string Noticia::getTitulo() const {
@@ -163,7 +163,7 @@ std::string Noticia::toString() const {
     return salida;
 }
 
-void Noticia::setEntidades() {
+void Noticia::procesarEntidades() {
     std::stringstream ss;
     ss.str(this->cuerpo);
     for(std::string word; ss >> word; )
@@ -176,7 +176,7 @@ void Noticia::setEntidades() {
     }
 }
 
-void Noticia::setMasFrecuente() {
+void Noticia::procesarEntidadMasFrecuente() {
 
     entidadMasFrecuente = EntidadComposite();
     if (entidades.size() == 0)

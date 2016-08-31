@@ -14,7 +14,6 @@ public:
     virtual void setTitulo(std::string titulo) {};
     virtual void setCuerpo(std::string cuerpo) {};
     virtual void setPalabrasReservadas(std::string ruta) {};
-    virtual void actualizar() {};
 
     virtual std::string getTitulo()const = 0;
     virtual std::string getCuerpo()const = 0;

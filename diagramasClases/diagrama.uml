@@ -26,7 +26,6 @@ interface NoticiaInterface {
     +void setTitulo(std::string titulo)
     +void setCuerpo(std::string cuerpo)
     +void setPalabrasReservadas(std::string ruta)
-    +void actualizar()
     +std::string getTitulo()const
     +std::string getCuerpo()const
     +std::list<std::string> getEntidades()const
@@ -50,7 +49,7 @@ class Noticia {
     +void setTitulo(std::string titulo)
     +void setCuerpo(std::string cuerpo)
     +void setPalabrasReservadas(std::string ruta)
-    +void actualizar()
+    +void inicializar()
     +std::string getTitulo()const
     +std::string getCuerpo()const
     +std::list<std::string> getEntidades()const
@@ -60,8 +59,8 @@ class Noticia {
     +std::list<std::string> getEntidadesRelevantes()const
     +bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const
     +std::string toString()const
-    -void setEntidades()
-    -void setMasFrecuente()
+    -void procesarEntidades()
+    -void procesarEntidadMasFrecuente()
     -bool agregarEntidad(std::string nombre)
     -bool esletra(char c) const
 }

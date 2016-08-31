@@ -29,7 +29,7 @@ public:
 	void setTitulo(std::string titulo);
 	void setCuerpo(std::string cuerpo);
 	void setPalabrasReservadas(std::string ruta);
-	void actualizar();
+	void inicializar();
 
 	std::string getTitulo()const;
 	std::string getCuerpo()const;
@@ -43,8 +43,8 @@ public:
 
 
 private:
-	void setEntidades();
-	void setMasFrecuente();
+	void procesarEntidades();
+	void procesarEntidadMasFrecuente();
 	bool agregarEntidad(std::string nombre);
 };
 
