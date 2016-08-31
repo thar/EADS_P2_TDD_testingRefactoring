@@ -6,9 +6,16 @@
 
 PalabrasReservadas::PalabrasReservadas(const std::string rutaFichero)
 {
+    FileLineIterator f(rutaFichero);
+    for (auto linea : f)
+    {
+        LineWordIterator lineaIterator(linea);
+        for (auto palabra : lineaIterator)
+            this->insert(palabra);
+    }
 }
 
 bool PalabrasReservadas::has(std::string palabra)
 {
-    return false;
+    return find(palabra) != end();
 }
