@@ -71,6 +71,8 @@ TEST(Analizador, given2NoticiasConEntidadesDiferentes_y_soloLaPrimeraAgregableCo
     EXPECT_EQ(a1.agruparNoticiasGeneral(), "Entidad1 Entidad2 \n"
             "   *[titulo noticia 1]\n"
             "   *[titulo noticia 2]\n\n");
+    Mock::AllowLeak(noticia1.get());
+    Mock::AllowLeak(noticia2.get());
 }
 
 TEST(Analizador, given2NoticiasNoAgrupables_whenAgruparNoticiasGeneral_then_DosGruposSonObtenidos)
@@ -90,6 +92,8 @@ TEST(Analizador, given2NoticiasNoAgrupables_whenAgruparNoticiasGeneral_then_DosG
             "   *[titulo noticia 1]\n"
             "\nEntidad2 \n"
             "   *[titulo noticia 2]\n\n");
+    Mock::AllowLeak(noticia1.get());
+    Mock::AllowLeak(noticia2.get());
 }
 
 TEST(Analizador, given3NoticiasConEntidadesDiferentes_y_1AgrupableCon3y3Con2_whenAgruparNoticiasGenerasl_then_UnGrupoEsObtenido)
@@ -117,4 +121,7 @@ TEST(Analizador, given3NoticiasConEntidadesDiferentes_y_1AgrupableCon3y3Con2_whe
             "   *[titulo noticia 1]\n"
             "   *[titulo noticia 3]\n"
             "   *[titulo noticia 2]\n\n");
+    Mock::AllowLeak(noticia1.get());
+    Mock::AllowLeak(noticia2.get());
+    Mock::AllowLeak(noticia3.get());
 }
