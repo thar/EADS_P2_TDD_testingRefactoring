@@ -28,6 +28,14 @@ public:
 
     std::set<std::string> getEntidadNombrada() const;
 
+    std::string toString() const
+    {
+        std::string salida = "";
+        for (auto entidad : entidadNombrada)
+            salida += entidad + " ";
+        return salida;
+    }
+
     friend bool operator< (const EntidadComposite& lhs, const EntidadComposite& rhs);
     friend bool operator> (const EntidadComposite& lhs, const EntidadComposite& rhs){ return rhs < lhs; }
     friend bool operator<=(const EntidadComposite& lhs, const EntidadComposite& rhs){ return !(lhs > rhs); }
@@ -37,8 +45,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const EntidadComposite& obj)
     {
-		for (auto entidad : obj.entidadNombrada)
-        	os << entidad + " ";
+        os << obj.toString();
         return os;
     }
 

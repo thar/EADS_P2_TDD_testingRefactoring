@@ -5,6 +5,7 @@
 #include <string>
 #include <list>
 #include <memory>
+#include "EntidadComposite.h"
 
 class NoticiaInterface {
 
@@ -18,8 +19,8 @@ public:
     virtual std::string getTitulo()const = 0;
     virtual std::string getCuerpo()const = 0;
     virtual std::list<std::string> getEntidades()const = 0;
-    virtual std::string getEntidadMasFrecuente() const = 0;
-    virtual int getFrecuenciaEntidad(std::string entidad) const = 0;
+    virtual EntidadComposite getEntidadMasFrecuente() const = 0;
+    virtual int getFrecuenciaEntidad(EntidadComposite entidad) const = 0;
     virtual std::list<std::string> getPalabrasReservadas()const = 0;
     virtual std::list<std::string> getEntidadesRelevantes()const = 0;
     virtual bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const = 0;

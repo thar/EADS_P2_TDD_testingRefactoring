@@ -1,7 +1,9 @@
 @startuml
 Analizador --> Noticia
 Analizador --> NoticiaInterface
+Analizador --> EntidadComposite
 Noticia --|> NoticiaInterface
+Noticia --> EntidadComposite
 
 class Analizador {
     -std::list<std::shared_ptr<NoticiaInterface>> noticias
@@ -62,5 +64,13 @@ class Noticia {
     -void setMasFrecuente()
     -bool agregarEntidad(std::string nombre)
     -bool esletra(char c) const
+}
+class EntidadComposite {
+    -std::set<std::string> entidadNombrada;
+    +EntidadComposite()
+    +EntidadComposite(const std::string n)
+    +EntidadComposite(const char * n)
+    +EntidadComposite& operator+=(const EntidadComposite& rhs)
+    +std::set<std::string> getEntidadNombrada() const
 }
 @enduml

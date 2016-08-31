@@ -29,7 +29,10 @@ std::set<std::string> getEntidadesFromAgrupacion(Agrupacion &noticias)
 {
     std::set<std::string> e;
     for (auto n : noticias)
-        e.insert(n->getEntidadMasFrecuente());
+    {
+        const auto en = n->getEntidadMasFrecuente().getEntidadNombrada();
+        e.insert(en.begin(), en.end());
+    }
     return e;
 }
 

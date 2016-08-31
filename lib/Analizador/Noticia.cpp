@@ -83,7 +83,7 @@ std::string Noticia::getCuerpo() const {
     return this->cuerpo;
 }
 
-std::string Noticia::getEntidadMasFrecuente() const {
+EntidadComposite Noticia::getEntidadMasFrecuente() const {
     return entidadMasFrecuente;
 }
 
@@ -96,12 +96,15 @@ std::list<std::string> Noticia::getEntidades() const {
     return l;
 }
 
-int Noticia::getFrecuenciaEntidad(std::string entidad) const
+int Noticia::getFrecuenciaEntidad(EntidadComposite entidad) const
 {
-    if(entidades.find(entidad) != entidades.end())
-        return entidades.at(entidad);
-    else
-        return 0;
+    for (auto e : entidad.getEntidadNombrada())
+    {
+        auto idx = entidades.find(e);
+        if (idx != entidades.end())
+            return idx->second;
+    }
+    return 0;
 }
 
 std::list<std::string> Noticia::getPalabrasReservadas() const {
@@ -114,7 +117,7 @@ std::list<std::string> Noticia::getEntidadesRelevantes() const {
 
 bool Noticia::esAgrupable(std::shared_ptr<NoticiaInterface> n) const {
 
-    std::string entidadMasFrecuenteNoticiaEntrada = n->getEntidadMasFrecuente();
+    EntidadComposite entidadMasFrecuenteNoticiaEntrada = n->getEntidadMasFrecuente();
 
     std::stringstream ss;
     ss.str(this->titulo);
@@ -153,7 +156,7 @@ std::string Noticia::toString() const {
     }
 
     salida = salida + "\n" + "MAS FRECUENTE: "
-             + this->getEntidadMasFrecuente();
+             + this->getEntidadMasFrecuente().toString();
 
     return salida;
 }

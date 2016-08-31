@@ -19,7 +19,7 @@ class Noticia : public NoticiaInterface {
     std::map<std::string, int> entidades;
     std::list<std::string> entidadesRelevantes;
     std::list<std::string> palabrasReservadas;
-    std::string entidadMasFrecuente;
+    EntidadComposite entidadMasFrecuente;
 
 public:
 	Noticia();
@@ -33,9 +33,9 @@ public:
 
 	std::string getTitulo()const;
 	std::string getCuerpo()const;
-    std::string getEntidadMasFrecuente() const;
+    EntidadComposite getEntidadMasFrecuente() const;
 	std::list<std::string> getEntidades()const;
-    int getFrecuenciaEntidad(std::string entidad) const;
+    int getFrecuenciaEntidad(EntidadComposite entidad) const;
 	std::list<std::string> getPalabrasReservadas()const;
 	std::list<std::string> getEntidadesRelevantes()const;
 	bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const;
@@ -46,7 +46,6 @@ private:
 	void setEntidades();
 	void setMasFrecuente();
 	bool agregarEntidad(std::string nombre);
-	bool esletra(char c) const;
 };
 
 #endif /* NOTICIA_H_ */
