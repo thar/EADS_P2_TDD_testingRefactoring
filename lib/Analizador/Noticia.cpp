@@ -12,6 +12,8 @@
 #include <sstream>
 #include <cctype>
 #include <algorithm>
+#include <FileLineIterator.h>
+#include <LineWordIterator.h>
 
 template <typename A, typename B>
 std::multimap<B, A> flip_map(std::map<A,B> & src) {
@@ -36,17 +38,18 @@ Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) :
 
 Noticia::Noticia(std::string rutaNoticia, std::string rutaStopWords) :
         titulo(""), cuerpo(""), entidades(), palabrasReservadas(), entidadMasFrecuente() {
-
-    std::ifstream f;
-    f.open(rutaNoticia.c_str(), std::ofstream::in);
+    FileLineIterator f(rutaNoticia);
     if (f.is_open()) {
-        std::string colector = "";
-        while (!f.eof()) {
-            getline(f, colector, '\n');
+        for (auto line : f)
+        {
+            static int index = 0;
             if (titulo == "") {
-                titulo = colector;
+                titulo = line;
             } else {
-                cuerpo += colector;
+                if (cuerpo == "")
+                    cuerpo = line;
+                else
+                    cuerpo += " " + line;
             }
         }
     }
@@ -65,9 +68,13 @@ void Noticia::setCuerpo(std::string cuerpo) {
 }
 
 void Noticia::setPalabrasReservadas(std::string ruta) {
-    std::ifstream file(ruta);
-    for(std::string word; file >> word; )
-        this->palabrasReservadas.push_back(word);
+    FileLineIterator f(ruta);
+    for (auto linea : f)
+    {
+        LineWordIterator lineaIterator(linea);
+        for (auto palabra : lineaIterator)
+            this->palabrasReservadas.push_back(palabra);
+    }
 }
 
 void Noticia::inicializar() {
@@ -119,9 +126,8 @@ bool Noticia::esAgrupable(std::shared_ptr<NoticiaInterface> n) const {
 
     EntidadComposite entidadMasFrecuenteNoticiaEntrada = n->getEntidadMasFrecuente();
 
-    std::stringstream ss;
-    ss.str(this->titulo);
-    for(std::string word; ss >> word; )
+    LineWordIterator lit(titulo);
+    for (auto word : lit)
     {
         if (word == entidadMasFrecuenteNoticiaEntrada)
             return true;
@@ -164,15 +170,12 @@ std::string Noticia::toString() const {
 }
 
 void Noticia::procesarEntidades() {
-    std::stringstream ss;
-    ss.str(this->cuerpo);
-    for(std::string word; ss >> word; )
+    LineWordIterator lit(cuerpo);
+    for (auto word : lit)
     {
         bool entidadAgregada = this->agregarEntidad(word);
-        if (entidadAgregada && ss.tellg() <= this->cuerpo.size() / 3)
-        {
+        if (entidadAgregada && lit.getPosition() <= 1./3)
             this->entidadesRelevantes.push_back(word);
-        }
     }
 }
 
