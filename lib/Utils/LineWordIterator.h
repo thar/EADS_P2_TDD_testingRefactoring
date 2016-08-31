@@ -11,24 +11,22 @@
 class LineWordIterator
 {
 public:
-    typedef std::string Word;
 
-    LineWordIterator(std::string line) : inputLine(line), beginIterator(inputLine) { }
-    std::istream_iterator<Word> begin() { return beginIterator; }
-    std::istream_iterator<Word> end() { return std::istream_iterator<Word>(); }
+    LineWordIterator(std::string line) : inputLine(line), beginIterator(inputLine), lineSize(line.size()) { }
+    std::istream_iterator<std::string> begin() { return beginIterator; }
+    std::istream_iterator<std::string> end() { return std::istream_iterator<std::string>(); }
     float getPosition()
     {
-        return 0;
+        if (inputLine.eof())
+            return 1;
+        else
+            return static_cast<float>(inputLine.tellg())/lineSize;
     }
 protected:
 private:
     std::istringstream inputLine;
-    std::istream_iterator<Word> beginIterator;
+    std::istream_iterator<std::string> beginIterator;
+    unsigned long lineSize;
 };
-
-inline std::istream &operator>>(std::istream &is, LineWordIterator::Word &w)
-{
-    return is;
-}
 
 #endif //ANALIZARNOTICIASLINUX_LINEWORDITERATOR_H
