@@ -155,6 +155,8 @@ std::string Noticia::toString() const {
         salida += " ";
     }
 
+    salida = salida + "\n" + "MAS RELEVANTES: ";
+
     salida = salida + "\n" + "MAS FRECUENTE: "
              + this->getEntidadMasFrecuente().toString();
 
@@ -176,13 +178,16 @@ void Noticia::setEntidades() {
 
 void Noticia::setMasFrecuente() {
 
+    entidadMasFrecuente = EntidadComposite();
     if (entidades.size() == 0)
     {
-        entidadMasFrecuente = "";
         return;
     }
-    std::multimap<int, std::string> reverseEntidades = flip_map(entidades);
-    entidadMasFrecuente = reverseEntidades.rbegin()->second;
+    auto reverseEntidades = flip_map(entidades);
+    int mayorFrecuencia = reverseEntidades.rbegin()->first;
+    auto ret = reverseEntidades.equal_range(mayorFrecuencia);
+    for (auto it=ret.first; it!=ret.second; ++it)
+        entidadMasFrecuente += it->second;
 }
 
 bool Noticia::agregarEntidad(std::string nombre) {

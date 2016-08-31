@@ -75,10 +75,10 @@ TEST(Noticia, givenNoticiaConDosEntidadesConFrecuencia2_whenPreguntarPorEntidade
 {
     Noticia n("Título de la noticia ", "Pruebo Prueba Prueba Pruebo ", "dataTests/ES_stopList_test1.txt");
     ASSERT_EQ(n.getEntidades().size(), 2);
-    ASSERT_EQ(n.getEntidadMasFrecuente(), "Pruebo");
-    ASSERT_EQ(n.getFrecuenciaEntidad("Pruebo"), 2);
-    ASSERT_EQ(n.getEntidadMasFrecuente(), "Prueba");
-    ASSERT_EQ(n.getFrecuenciaEntidad("Prueba"), 2);
+    EXPECT_EQ(n.getEntidadMasFrecuente(), "Pruebo");
+    EXPECT_EQ(n.getFrecuenciaEntidad("Pruebo"), 2);
+    EXPECT_EQ(n.getEntidadMasFrecuente(), "Prueba");
+    EXPECT_EQ(n.getFrecuenciaEntidad("Prueba"), 2);
 }
 
 TEST(Noticia, givenNoticiaSinEntidadesRelevantes_whenPreguntarPorEntidadesRelevantes_then_NingulaEsDevuelta)
@@ -99,7 +99,7 @@ TEST(Noticia, givenDosNoticiasConMismaEntidadMasFrecuente_whenPreguntarPorAgrupa
 TEST(Noticia, givenDosNoticiasConDistintaEntidadMasFrecuentePeroCumpliendoCondicion30Porciento_whenPreguntarPorAgrupables_then_true)
 {
     std::shared_ptr<Noticia> n1 = std::make_shared<Noticia>("Noticia 1 ",
-                                                            "Noticia Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce ",
+                                                            "Noticia Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce Diez ",
                                                             "dataTests/ES_stopList_test1.txt");
     Noticia n2("Noticia 2 ",
                "Esta Noticia Tiene el 30% de las Entidades más Relevantes de la Primera y Muchas Otras Más. Cinco ",
