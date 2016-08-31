@@ -71,6 +71,16 @@ TEST(Noticia, givenNoticiaConEntidadConFrecuencia3yEntidadConFrecuencia2_whenPre
     EXPECT_EQ(n.getFrecuenciaEntidad("Prueba"), 3);
 }
 
+TEST(Noticia, givenNoticiaConDosEntidadesConFrecuencia2_whenPreguntarPorEntidadeMasFrecuente_then_EntidadCompositeConLas2EntidadesEsDevuelto)
+{
+    Noticia n("Título de la noticia ", "Pruebo Prueba Prueba Pruebo ", "dataTests/ES_stopList_test1.txt");
+    ASSERT_EQ(n.getEntidades().size(), 2);
+    ASSERT_EQ(n.getEntidadMasFrecuente(), "Pruebo");
+    ASSERT_EQ(n.getFrecuenciaEntidad("Pruebo"), 2);
+    ASSERT_EQ(n.getEntidadMasFrecuente(), "Prueba");
+    ASSERT_EQ(n.getFrecuenciaEntidad("Prueba"), 2);
+}
+
 TEST(Noticia, givenNoticiaSinEntidadesRelevantes_whenPreguntarPorEntidadesRelevantes_then_NingulaEsDevuelta)
 {
     Noticia n("Título de la noticia ", "noticia con entidades no Relevantes ", "dataTests/ES_stopList_test1.txt");
@@ -88,10 +98,32 @@ TEST(Noticia, givenDosNoticiasConMismaEntidadMasFrecuente_whenPreguntarPorAgrupa
 
 TEST(Noticia, givenDosNoticiasConDistintaEntidadMasFrecuentePeroCumpliendoCondicion30Porciento_whenPreguntarPorAgrupables_then_true)
 {
-    std::shared_ptr<Noticia> n1 = std::make_shared<Noticia>("Noticia 1 ", "Noticia Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce ", "dataTests/ES_stopList_test1.txt");
-    Noticia n2("Noticia 2 ", "Esta Noticia Tiene el 30% de las Entidades más Relevantes de la Primera y Muchas Otras Más. Cinco ", "dataTests/ES_stopList_test1.txt");
+    std::shared_ptr<Noticia> n1 = std::make_shared<Noticia>("Noticia 1 ",
+                                                            "Noticia Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce ",
+                                                            "dataTests/ES_stopList_test1.txt");
+    Noticia n2("Noticia 2 ",
+               "Esta Noticia Tiene el 30% de las Entidades más Relevantes de la Primera y Muchas Otras Más. Cinco ",
+               "dataTests/ES_stopList_test1.txt");
     ASSERT_NE(n1->getEntidadMasFrecuente(), n2.getEntidadMasFrecuente());
     auto entidadesRelevantes1 = n1->getEntidadesRelevantes();
     EXPECT_EQ(entidadesRelevantes1.size(), 3);
     EXPECT_EQ(n2.esAgrupable(n1), true);
+}
+
+TEST(Noticia, givenNoticiaConPalabrasQueNoEmpiezanPorLetras_whenPreguntarPorEntidadesEncontradas_then_NingunaDevuelta)
+{
+    Noticia n1("Noticia 1 ", ", ' . 1 2 ? ! - [ ] ", "dataTests/ES_stopList_test1.txt");
+    auto entidades = n1.getEntidades();
+    ASSERT_EQ(entidades.size(), 0);
+}
+
+TEST(Noticia, givenNoticia_whenObtenerSuRepresentacionComoString_then_LaCadenaCorrectaEsObtenida)
+{
+    std::shared_ptr<Noticia> n1 = std::make_shared<Noticia>("Título ", "cuerpo ", "data/ES_stopList.txt");
+    auto noticiaString = n1->toString();
+    ASSERT_EQ("TITULO: Título \n"
+                      "CUERPO: cuerpo \n"
+                      "ENTIDADES: \n"
+                      "MAS RELEVANTES: \n"
+                      "MAS FRECUENTE: ", noticiaString);
 }
