@@ -8,6 +8,7 @@ set(SOURCE_FILES
     Analizador.cpp
     Analizador.h
         Noticia.cpp
-    Noticia.h NoticiaInterface.h)
+    Noticia.h NoticiaInterface.h
+        EntidadComposite.h EntidadComposite.cpp)
 
 add_library(analizadorLib ${SOURCE_FILES})

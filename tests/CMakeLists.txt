@@ -34,7 +34,7 @@ endif()
 
 include_directories(../lib/Analizador)
 
-add_executable(AnalizadorTests TestsAnalizador.cpp TestsNoticia.cpp NoticiaMock.h)
+add_executable(AnalizadorTests TestsAnalizador.cpp TestsNoticia.cpp NoticiaMock.h TestsEntidadComposite.cpp)
 target_link_libraries(AnalizadorTests LINK_PUBLIC gtest gmock_main analizadorLib jsoncppLib)
 add_test(NAME AnalizadorTests_test COMMAND AnalizadorTests)
 add_custom_command(TARGET AnalizadorTests POST_BUILD
