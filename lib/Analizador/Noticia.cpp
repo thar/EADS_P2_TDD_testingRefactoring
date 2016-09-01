@@ -26,11 +26,11 @@ std::multimap<B, A> flip_map(std::map<A,B> & src) {
     return dst;
 }
 
-Noticia::Noticia() : titulo(""), cuerpo(""), entidades(), palabrasReservadas(), entidadMasFrecuente() {
+Noticia::Noticia() {
 }
 
-Noticia::Noticia(std::string titulo, std::string cuerpo, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) :
-        titulo(titulo), cuerpo(cuerpo), palabrasReservadas(palabrasReservadas) {
+Noticia::Noticia(std::string titulo, std::vector<std::string> parrafos, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) :
+        titulo(titulo), parrafos(parrafos), palabrasReservadas(palabrasReservadas) {
     inicializar();
 }
 
@@ -38,8 +38,8 @@ void Noticia::setTitulo(std::string titulo) {
     this->titulo = titulo;
 }
 
-void Noticia::setCuerpo(std::string cuerpo) {
-    this->cuerpo = cuerpo;
+void Noticia::setParrafos(std::vector<std::string> parrafos) {
+    this->parrafos = parrafos;
 }
 
 void Noticia::setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) {
@@ -56,7 +56,14 @@ std::string Noticia::getTitulo() const {
 }
 
 std::string Noticia::getCuerpo() const {
-    return this->cuerpo;
+    std::string cuerpo;
+    if (parrafos.size())
+    {
+        cuerpo += parrafos[0];
+        for (auto it = parrafos.begin() + 1; it != parrafos.end(); ++it)
+            cuerpo += std::string("\n") + *it;
+    }
+    return cuerpo;
 }
 
 EntidadComposite Noticia::getEntidadMasFrecuente() const {
@@ -95,7 +102,7 @@ std::set<std::string> Noticia::getEntidadesRelevantes() const {
 std::string Noticia::toString() const {
 
     std::string salida;
-    salida = "TITULO: " + this->titulo + "\n" + "CUERPO: " + this->cuerpo + "\n"
+    salida = "TITULO: " + this->titulo + "\n" + "CUERPO: " + getCuerpo() + "\n"
              + "ENTIDADES: ";
 
     std::set<std::string> lista = this->getEntidades();
@@ -115,7 +122,7 @@ std::string Noticia::toString() const {
 }
 
 void Noticia::procesarEntidades() {
-    LineWordIterator lit(cuerpo);
+    LineWordIterator lit(getCuerpo());
     for (auto word : lit)
     {
         bool entidadAgregada = this->agregarEntidad(word);

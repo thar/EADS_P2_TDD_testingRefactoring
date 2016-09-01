@@ -13,7 +13,7 @@ public:
     Tuit(Json::Value& inputData, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
 
     void setTitulo(std::string titulo) {}
-    void setCuerpo(std::string cuerpo) {}
+    void setParrafos(std::vector<std::string> parrafos) {}
     void setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) {}
 	void inicializar();
 

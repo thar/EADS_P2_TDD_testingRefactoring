@@ -1,4 +1,5 @@
 #include <NoticiasBuilder.h>
+#include <NoticiasJsonBuilder.h>
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 #include "NoticiaMock.h"
@@ -146,4 +147,18 @@ TEST(Analizador, given3NoticiasConEntidadesDiferentes_y_1AgrupableCon3y3Con2_whe
     Mock::AllowLeak(noticia1.get());
     Mock::AllowLeak(noticia2.get());
     Mock::AllowLeak(noticia3.get());
+}
+
+TEST(Analizador, givenCarpetaConNoticiasJson_whenCrearAnalizadorConConstructorVacio_y_establecerCarpetaDeNoticiasJsonDespues_then_LasNoticiasSonObtenidas)
+{
+    Analizador a1;
+    std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas = std::make_shared<PalabrasReservadas>("dataTests/ES_stopList_test.txt");
+    std::shared_ptr<NoticiasBuilderInterface> builder = std::make_shared<NoticiasJsonBuilder>("data/news_json", palabrasReservadas);
+    a1.addNoticias(builder);
+    auto noticias = a1.getNoticias();
+    ASSERT_EQ(noticias.size(), 3);
+    auto it = noticias.begin();
+    EXPECT_EQ((*it++)->getTitulo(), "Liberan a los dos sospechosos detenidos por el asesinato de un niño de 11 años en Liverpool");
+    EXPECT_EQ((*it++)->getTitulo(), "Detienen a seis jóvenes más en relación con el asesinato de el niño de Liverpool");
+    EXPECT_EQ((*it)->getTitulo(), "Siguen los interrogatorios a los detenidos por el asesinato de el niño de Liverpool");
 }

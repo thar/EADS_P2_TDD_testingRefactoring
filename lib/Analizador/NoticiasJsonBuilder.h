@@ -1,14 +1,14 @@
 
-#ifndef ANALIZARNOTICIASLINUX_NOTICIASBUILDER_H
-#define ANALIZARNOTICIASLINUX_NOTICIASBUILDER_H
+#ifndef ANALIZARNOTICIASLINUX_NOTICIASJSONBUILDER_H
+#define ANALIZARNOTICIASLINUX_NOTICIASJSONBUILDER_H
 
 
 #include "NoticiasBuilderInterface.h"
 
-class NoticiasBuilder : public NoticiasBuilderInterface
+class NoticiasJsonBuilder : public NoticiasBuilderInterface
 {
 public:
-    NoticiasBuilder(std::string noticiasPath, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
+    NoticiasJsonBuilder(std::string noticiasPath, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
     std::vector<std::shared_ptr<NoticiaInterface>> getNoticias();
 
 protected:
@@ -19,4 +19,4 @@ private:
 };
 
 
-#endif //ANALIZARNOTICIASLINUX_NOTICIASBUILDER_H
+#endif //ANALIZARNOTICIASLINUX_NOTICIASJSONBUILDER_H

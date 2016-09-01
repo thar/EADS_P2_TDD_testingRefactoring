@@ -10,6 +10,7 @@
 #include "string"
 #include <list>
 #include <map>
+#include <vector>
 #include "NoticiaInterface.h"
 #include "NoticiaVisitor.h"
 
@@ -18,10 +19,10 @@ class Noticia : public NoticiaInterface {
 
 public:
 	Noticia();
-	Noticia(std::string titulo, std::string cuerpo, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
+	Noticia(std::string titulo, std::vector<std::string> parrafos, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
 
 	void setTitulo(std::string titulo);
-	void setCuerpo(std::string cuerpo);
+	void setParrafos(std::vector<std::string> parrafos);
 	void setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
 	void inicializar();
 
@@ -41,7 +42,7 @@ private:
 	bool agregarEntidad(std::string nombre);
 
 	std::string titulo;
-	std::string cuerpo;
+    std::vector<std::string> parrafos;
 	std::map<std::string, int> entidades;
 	std::set<std::string> entidadesRelevantes;
 	EntidadComposite entidadMasFrecuente;

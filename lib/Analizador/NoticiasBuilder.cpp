@@ -20,9 +20,9 @@ std::vector<std::shared_ptr<NoticiaInterface>> NoticiasBuilder::getNoticias()
     for (auto file : fileList)
     {
         std::string titulo;
-        std::string cuerpo;
-        obtenerDatosNoticiasDesdeFichero(file,titulo, cuerpo);
-        auto noticia = std::make_shared<Noticia>(titulo, cuerpo, palabrasReservadas);
+        std::vector<std::string> parrafos;
+        obtenerDatosNoticiasDesdeFichero(file,titulo, parrafos);
+        auto noticia = std::make_shared<Noticia>(titulo, parrafos, palabrasReservadas);
         if (noticia->getTitulo().length() != 0)
             noticias.push_back(noticia);
     }
@@ -32,10 +32,10 @@ std::vector<std::shared_ptr<NoticiaInterface>> NoticiasBuilder::getNoticias()
 
 //TODO: Función con 3 parámetros
 void
-NoticiasBuilder::obtenerDatosNoticiasDesdeFichero(std::string &rutaFichero, std::string &titulo, std::string &cuerpo)
+NoticiasBuilder::obtenerDatosNoticiasDesdeFichero(std::string &rutaFichero, std::string &titulo, std::vector<std::string>& parrafos)
 {
     titulo = "";
-    cuerpo = "";
+    parrafos = std::vector<std::string>();
     FileLineIterator f(rutaFichero);
     if (f.is_open()) {
         for (auto line : f)
@@ -43,10 +43,7 @@ NoticiasBuilder::obtenerDatosNoticiasDesdeFichero(std::string &rutaFichero, std:
             if (titulo == "") {
                 titulo = line.getLine();
             } else {
-                if (cuerpo == "")
-                    cuerpo = line.getLine();
-                else
-                    cuerpo += "\n" + line.getLine();
+                parrafos.push_back(line.getLine());
             }
         }
     }

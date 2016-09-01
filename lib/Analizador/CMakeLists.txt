@@ -14,6 +14,6 @@ set(SOURCE_FILES
         PalabrasReservadas.h PalabrasReservadas.cpp PalabrasReservadasInterface.h
         AgrupadorNoticias.cpp AgrupadorNoticias.h AgrupadorNoticiasInterface.h
         NoticiasBuilderInterface.h NoticiasBuilder.cpp NoticiasBuilder.h
-        Tuit.cpp Tuit.h TuitsJsonBuilder.h TuitsJsonBuilder.cpp)
+        Tuit.cpp Tuit.h TuitsJsonBuilder.h TuitsJsonBuilder.cpp NoticiasJsonBuilder.cpp NoticiasJsonBuilder.h)
 
 add_library(analizadorLib ${SOURCE_FILES})

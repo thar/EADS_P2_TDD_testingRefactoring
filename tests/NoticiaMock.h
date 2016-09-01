@@ -13,7 +13,7 @@ class NoticiaMock : public NoticiaInterface
 {
 public:
     MOCK_METHOD1(setTitulo, void(std::string));
-    MOCK_METHOD1(setCuerpo, void(std::string));
+    MOCK_METHOD1(setParrafos, void(std::vector<std::string>));
     MOCK_METHOD1(setPalabrasReservadas, void(std::shared_ptr<PalabrasReservadasInterface>));
 
     MOCK_CONST_METHOD0(getTitulo, std::string());

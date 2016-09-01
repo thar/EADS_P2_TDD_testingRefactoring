@@ -5,6 +5,7 @@
 #include <string>
 #include <list>
 #include <memory>
+#include <vector>
 #include "EntidadComposite.h"
 #include "PalabrasReservadas.h"
 #include "NoticiaVisitor.h"
@@ -14,7 +15,7 @@ class NoticiaInterface {
 public:
 
     virtual void setTitulo(std::string titulo) {};
-    virtual void setCuerpo(std::string cuerpo) {};
+    virtual void setParrafos(std::vector<std::string> parrafos) {};
     virtual void setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) {};
 
     virtual std::string getTitulo()const = 0;
