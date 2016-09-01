@@ -1,3 +1,4 @@
+#include <NoticiasBuilder.h>
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 #include "NoticiaMock.h"
@@ -20,7 +21,9 @@ TEST(Analizador, givenCarpetaConUnaNoticia_whenObtenerNumeroDeNoticias_y_titulo_
 TEST(Analizador, givenCarpetaConUnaNoticia_whenCrearAnalizadorConConstructorVacio_y_establecerCarpetaDeNoticiasDespues_then_UnaNoticiaConTituloCorrectoEsObtenida)
 {
     Analizador a1;
-    a1.setNoticas("dataTests");
+    std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas = std::make_shared<PalabrasReservadas>("dataTests/ES_stopList_test.txt");
+    std::shared_ptr<NoticiasBuilderInterface> builder = std::make_shared<NoticiasBuilder>("dataTests/news", palabrasReservadas);
+    a1.addNoticias(builder);
     auto noticias = a1.getNoticias();
     ASSERT_EQ(noticias.size(), 1);
     EXPECT_EQ(noticias.front()->getTitulo(), "lista de palabras del alfabeto radiofónico");

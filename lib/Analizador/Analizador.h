@@ -11,24 +11,19 @@
 #include <list>
 #include <memory>
 #include <set>
+#include <vector>
 #include "NoticiaInterface.h"
 #include "Agrupacion.h"
 #include "AgrupadorNoticias.h"
 #include "AgrupadorNoticiasInterface.h"
+#include "NoticiasBuilderInterface.h"
 
 class Analizador {
-
-	std::list<std::shared_ptr<NoticiaInterface>> noticias;
-	std::string ruta;
-    std::list<Agrupacion> agrupacionEntidadMasFrecuente;
-
-
 public:
-	Analizador();
-	Analizador(std::string ruta);
+
+    void addNoticias(std::shared_ptr<NoticiasBuilderInterface> fuente);
 
 	std::list<std::shared_ptr<NoticiaInterface>> getNoticias() const;
-	void setNoticas(std::string ruta);
     void setAgrupador(std::shared_ptr<AgrupadorNoticiasInterface> agrupador);
 
 	std::string agruparNoticias();
@@ -45,6 +40,8 @@ protected:
     bool isAgrupacionesAgrupables(Agrupacion& agrupacion1, Agrupacion& agrupacion2);
 
 private:
+    std::list<std::shared_ptr<NoticiaInterface>> noticias;
+    std::list<Agrupacion> agrupacionEntidadMasFrecuente;
     std::shared_ptr<AgrupadorNoticiasInterface> agrupador;
 };
 

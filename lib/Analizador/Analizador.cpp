@@ -6,34 +6,11 @@
  */
 
 #include "Analizador.h"
-#include <fstream>
 #include <sstream>
-#include <vector>
 #include <algorithm>
-#include "Noticia.h"
-#include "NoticiasBuilder.h"
-
-Analizador::Analizador() : noticias(), ruta("") {
-}
-
-Analizador::Analizador(std::string ruta) : noticias(), ruta(ruta) {
-    setNoticas(ruta);
-}
 
 std::list<std::shared_ptr<NoticiaInterface>> Analizador::getNoticias() const {
 	return noticias;
-}
-
-void Analizador::setNoticas(std::string ruta) {
-
-    std::string rutaRestricciones = ruta + "/ES_stopList.txt";
-    std::string rutaNoticias = ruta + "/news";
-
-    auto palabrasReservadas = std::make_shared<PalabrasReservadas>(rutaRestricciones);
-    NoticiasBuilder noticiasBuilder(rutaNoticias, palabrasReservadas);
-
-    for (auto noticia : noticiasBuilder.getNoticias())
-        addNoticia(noticia);
 }
 
 std::string Analizador::agruparNoticias() {
@@ -49,7 +26,7 @@ std::string Analizador::agruparNoticiasGeneral() {
 }
 
 std::string Analizador::toString() const {
-	auto salida = std::string("Ruta del directorio: ") + ruta + "\n\n";
+    std::string salida;
 	for (auto noticia : noticias)
 		salida = salida + "Titulo: " + noticia->getTitulo() + "\n\n";
 	return salida;
@@ -139,4 +116,10 @@ std::shared_ptr<AgrupadorNoticiasInterface> Analizador::getAgrupador()
         return agrupador;
     else
         return std::make_shared<AgrupadorNoticias>();
+}
+
+void Analizador::addNoticias(std::shared_ptr<NoticiasBuilderInterface> fuente)
+{
+    for (auto noticia : fuente->getNoticias())
+        addNoticia(noticia);
 }
