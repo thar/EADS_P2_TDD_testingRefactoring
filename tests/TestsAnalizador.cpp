@@ -22,7 +22,7 @@ TEST(Analizador, givenCarpetaConUnaNoticia_whenCrearAnalizadorConConstructorVaci
     Analizador a1;
     a1.setNoticas("dataTests");
     auto noticias = a1.getNoticias();
-    EXPECT_EQ(noticias.size(), 1);
+    ASSERT_EQ(noticias.size(), 1);
     EXPECT_EQ(noticias.front()->getTitulo(), "lista de palabras del alfabeto radiofónico");
 }
 

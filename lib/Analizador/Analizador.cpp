@@ -11,7 +11,7 @@
 #include <vector>
 #include <algorithm>
 #include "Noticia.h"
-#include "pathUtils.h"
+#include "NoticiasBuilder.h"
 
 Analizador::Analizador() : noticias(), ruta("") {
 }
@@ -30,15 +30,10 @@ void Analizador::setNoticas(std::string ruta) {
     std::string rutaNoticias = ruta + "/news";
 
     auto palabrasReservadas = std::make_shared<PalabrasReservadas>(rutaRestricciones);
+    NoticiasBuilder noticiasBuilder(rutaNoticias, palabrasReservadas);
 
-    auto fileList = globVector(rutaNoticias + "/*");
-
-    for (auto file : fileList)
-    {
-        auto noticia = std::make_shared<Noticia>(file, palabrasReservadas);
-        if (noticia->getTitulo().length() != 0)
-            addNoticia(noticia);
-    }
+    for (auto noticia : noticiasBuilder.getNoticias())
+        addNoticia(noticia);
 }
 
 std::string Analizador::agruparNoticias() {
