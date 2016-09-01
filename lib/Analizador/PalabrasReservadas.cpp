@@ -11,11 +11,11 @@ PalabrasReservadas::PalabrasReservadas(const std::string rutaFichero)
     {
         LineWordIterator lineaIterator(linea);
         for (auto palabra : lineaIterator)
-            this->insert(palabra);
+            palabrasReservadas_.insert(palabra);
     }
 }
 
 bool PalabrasReservadas::has(std::string palabra)
 {
-    return find(palabra) != end();
+    return palabrasReservadas_.find(palabra) != palabrasReservadas_.end();
 }

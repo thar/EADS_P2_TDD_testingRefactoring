@@ -6,6 +6,7 @@
 #include <list>
 #include <memory>
 #include "EntidadComposite.h"
+#include "PalabrasReservadas.h"
 
 class NoticiaInterface {
 
@@ -13,7 +14,7 @@ public:
 
     virtual void setTitulo(std::string titulo) {};
     virtual void setCuerpo(std::string cuerpo) {};
-    virtual void setPalabrasReservadas(std::string ruta) {};
+    virtual void setPalabrasReservadas(PalabrasReservadasInterface&) {};
 
     virtual std::string getTitulo()const = 0;
     virtual std::string getCuerpo()const = 0;
