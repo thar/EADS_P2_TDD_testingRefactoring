@@ -2,6 +2,7 @@
 #include "gmock/gmock.h"
 #include "NoticiaMock.h"
 #include "Analizador.h"
+#include "AgrupadorNoticiasMock.h"
 
 using namespace testing;
 
@@ -55,17 +56,20 @@ TEST(Analizador, given4NoticiasCon2EntidadesDiferentes_whenAgruparNoticiasPorEnt
             "   *[titulo noticia 4]\n\n");
 }
 
-TEST(Analizador, given2NoticiasConEntidadesDiferentes_y_soloLaPrimeraAgregableConLaSegunda_whenAgruparNoticiasGeneral_then_UnGrupoEsObtenido)
+TEST(Analizador, given2NoticiasSoloAgrupablesPorTematica_whenAgruparNoticiasGeneral_then_UnGrupoEsObtenido)
 {
+    auto agrupador = std::make_shared<AgrupadorNoticiasMock>();
     Analizador a1;
+    a1.setAgrupador(agrupador);
     auto noticia1 = std::make_shared<NoticiaMock>();
     auto noticia2 = std::make_shared<NoticiaMock>();
     EXPECT_CALL(*noticia1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
     EXPECT_CALL(*noticia2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad2"));
     EXPECT_CALL(*noticia1, getTitulo()).WillRepeatedly(Return("titulo noticia 1"));
     EXPECT_CALL(*noticia2, getTitulo()).WillRepeatedly(Return("titulo noticia 2"));
-    EXPECT_CALL(*noticia1, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(true));
-    EXPECT_CALL(*noticia2, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1), static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(false));
+
+    EXPECT_CALL(*agrupador, isAgregable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1), static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(true));
     a1.addNoticia(noticia1);
     a1.addNoticia(noticia2);
     EXPECT_EQ(a1.agruparNoticiasGeneral(), "Entidad1 Entidad2 \n"
@@ -77,15 +81,19 @@ TEST(Analizador, given2NoticiasConEntidadesDiferentes_y_soloLaPrimeraAgregableCo
 
 TEST(Analizador, given2NoticiasNoAgrupables_whenAgruparNoticiasGeneral_then_DosGruposSonObtenidos)
 {
+    auto agrupador = std::make_shared<AgrupadorNoticiasMock>();
     Analizador a1;
+    a1.setAgrupador(agrupador);
     auto noticia1 = std::make_shared<NoticiaMock>();
     auto noticia2 = std::make_shared<NoticiaMock>();
     EXPECT_CALL(*noticia1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
     EXPECT_CALL(*noticia2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad2"));
     EXPECT_CALL(*noticia1, getTitulo()).WillRepeatedly(Return("titulo noticia 1"));
     EXPECT_CALL(*noticia2, getTitulo()).WillRepeatedly(Return("titulo noticia 2"));
-    EXPECT_CALL(*noticia1, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(false));
-    EXPECT_CALL(*noticia2, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1), static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2), static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1), static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2), static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
     a1.addNoticia(noticia1);
     a1.addNoticia(noticia2);
     EXPECT_EQ(a1.agruparNoticiasGeneral(), "Entidad1 \n"
@@ -98,7 +106,9 @@ TEST(Analizador, given2NoticiasNoAgrupables_whenAgruparNoticiasGeneral_then_DosG
 
 TEST(Analizador, given3NoticiasConEntidadesDiferentes_y_1AgrupableCon3y3Con2_whenAgruparNoticiasGenerasl_then_UnGrupoEsObtenido)
 {
+    auto agrupador = std::make_shared<AgrupadorNoticiasMock>();
     Analizador a1;
+    a1.setAgrupador(agrupador);
     auto noticia1 = std::make_shared<NoticiaMock>();
     auto noticia2 = std::make_shared<NoticiaMock>();
     auto noticia3 = std::make_shared<NoticiaMock>();
@@ -108,12 +118,21 @@ TEST(Analizador, given3NoticiasConEntidadesDiferentes_y_1AgrupableCon3y3Con2_whe
     EXPECT_CALL(*noticia1, getTitulo()).WillRepeatedly(Return("titulo noticia 1"));
     EXPECT_CALL(*noticia2, getTitulo()).WillRepeatedly(Return("titulo noticia 2"));
     EXPECT_CALL(*noticia3, getTitulo()).WillRepeatedly(Return("titulo noticia 3"));
-    EXPECT_CALL(*noticia1, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(false));
-    EXPECT_CALL(*noticia1, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia3))).WillRepeatedly(Return(true));
-    EXPECT_CALL(*noticia2, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
-    EXPECT_CALL(*noticia2, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia3))).WillRepeatedly(Return(true));
-    EXPECT_CALL(*noticia3, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(true));
-    EXPECT_CALL(*noticia3, esAgrupable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(true));
+
+    EXPECT_CALL(*agrupador, isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1), static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2), static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1), static_cast<std::shared_ptr<NoticiaInterface>>(noticia3))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<NoticiaInterface>>(noticia3), static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<NoticiaInterface>>(noticia3), static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2), static_cast<std::shared_ptr<NoticiaInterface>>(noticia3))).WillRepeatedly(Return(false));
+
+    EXPECT_CALL(*agrupador, isAgregable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1), static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2), static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(false));
+    EXPECT_CALL(*agrupador, isAgregable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia1), static_cast<std::shared_ptr<NoticiaInterface>>(noticia3))).WillRepeatedly(Return(true));
+    EXPECT_CALL(*agrupador, isAgregable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia3), static_cast<std::shared_ptr<NoticiaInterface>>(noticia1))).WillRepeatedly(Return(true));
+    EXPECT_CALL(*agrupador, isAgregable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia3), static_cast<std::shared_ptr<NoticiaInterface>>(noticia2))).WillRepeatedly(Return(true));
+    EXPECT_CALL(*agrupador, isAgregable(static_cast<std::shared_ptr<NoticiaInterface>>(noticia2), static_cast<std::shared_ptr<NoticiaInterface>>(noticia3))).WillRepeatedly(Return(true));
+
     a1.addNoticia(noticia1);
     a1.addNoticia(noticia2);
     a1.addNoticia(noticia3);
