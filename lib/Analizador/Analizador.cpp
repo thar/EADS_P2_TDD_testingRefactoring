@@ -29,13 +29,13 @@ void Analizador::setNoticas(std::string ruta) {
     std::string rutaRestricciones = ruta + "/ES_stopList.txt";
     std::string rutaNoticias = ruta + "/news";
 
-    std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas = std::make_shared<PalabrasReservadas>(rutaRestricciones);
+    auto palabrasReservadas = std::make_shared<PalabrasReservadas>(rutaRestricciones);
 
-    std::vector<std::string> fileList = globVector(rutaNoticias + "/*");
+    auto fileList = globVector(rutaNoticias + "/*");
 
     for (auto file : fileList)
     {
-        std::shared_ptr<NoticiaInterface> noticia = std::make_shared<Noticia>(file, palabrasReservadas);
+        auto noticia = std::make_shared<Noticia>(file, palabrasReservadas);
         if (noticia->getTitulo().length() != 0)
             addNoticia(noticia);
     }
@@ -54,17 +54,9 @@ std::string Analizador::agruparNoticiasGeneral() {
 }
 
 std::string Analizador::toString() const {
-	std::list<std::shared_ptr<NoticiaInterface>> lista = this->noticias;
-	std::string salida = "";
-	std::shared_ptr<NoticiaInterface> aux;
-	for (std::list<std::shared_ptr<NoticiaInterface>>::iterator it = lista.begin(); it != lista.end();
-			it++) {
-		aux = *it;
-		if (salida == "") {
-			salida = salida + "Ruta del directorio: " + this->ruta + "\n\n";
-		}
-		salida = salida + "Titulo: " + aux->getTitulo() + "\n\n";
-	}
+	auto salida = std::string("Ruta del directorio: ") + ruta + "\n\n";
+	for (auto noticia : noticias)
+		salida = salida + "Titulo: " + noticia->getTitulo() + "\n\n";
 	return salida;
 }
 
@@ -101,11 +93,12 @@ std::list<Agrupacion> Analizador::getAgrupacionTematica()
 void Analizador::addNoticiaToAgrupacionEntidadMasFrecuente(std::shared_ptr<NoticiaInterface> noticia)
 {
     bool agrupada = false;
+    AgrupadorNoticias agrupadorNoticias;
     for (auto &grupo : agrupacionEntidadMasFrecuente)
     {
         for (auto &noticiaDeGrupo : grupo)
         {
-            if (noticiaDeGrupo->getEntidadMasFrecuente() == noticia->getEntidadMasFrecuente())
+            if (agrupadorNoticias.isAgregableEntidadMasFrecuente(noticiaDeGrupo, noticia))
             {
                 grupo.push_back(noticia);
                 agrupada = true;
@@ -130,11 +123,12 @@ bool Analizador::isAgrupacionesAgrupables(Agrupacion &agrupacion1, Agrupacion &a
     set_intersection(entidades1.begin(),entidades1.end(),entidades2.begin(),entidades2.end(), std::back_inserter(entidadesComunes));
     if (entidadesComunes.size() != 0)
         return true;
+    AgrupadorNoticias agrupadorNoticias;
     for (auto noticia1 : agrupacion1)
     {
         for (auto noticia2 : agrupacion2)
         {
-            if (noticia1->esAgrupable(noticia2) || noticia2->esAgrupable(noticia1))
+            if (agrupadorNoticias.isAgregable(noticia1, noticia2))
                 return true;
         }
     }

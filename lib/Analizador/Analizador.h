@@ -13,6 +13,7 @@
 #include <set>
 #include "NoticiaInterface.h"
 #include "Agrupacion.h"
+#include "AgrupadorNoticias.h"
 
 class Analizador {
 
