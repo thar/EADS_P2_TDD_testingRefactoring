@@ -12,9 +12,7 @@
 #include <memory>
 #include <set>
 #include "NoticiaInterface.h"
-
-typedef std::list<std::shared_ptr<NoticiaInterface>> Agrupacion;
-std::set<std::string> getEntidadesFromAgrupacion(Agrupacion &noticias);
+#include "Agrupacion.h"
 
 class Analizador {
 

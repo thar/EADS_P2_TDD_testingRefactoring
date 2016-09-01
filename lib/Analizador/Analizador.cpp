@@ -6,35 +6,12 @@
  */
 
 #include "Analizador.h"
-#include <iostream>
 #include <fstream>
 #include <sstream>
-#include <glob.h>
 #include <vector>
 #include <algorithm>
 #include "Noticia.h"
-
-std::vector<std::string> globVector(const std::string& pattern){
-    glob_t glob_result;
-    glob(pattern.c_str(),GLOB_TILDE,NULL,&glob_result);
-    std::vector<std::string> files;
-    for(unsigned int i=0;i<glob_result.gl_pathc;++i){
-        files.push_back(std::string(glob_result.gl_pathv[i]));
-    }
-    globfree(&glob_result);
-    return files;
-}
-
-std::set<std::string> getEntidadesFromAgrupacion(Agrupacion &noticias)
-{
-    std::set<std::string> e;
-    for (auto n : noticias)
-    {
-        const auto en = n->getEntidadMasFrecuente().getEntidadNombrada();
-        e.insert(en.begin(), en.end());
-    }
-    return e;
-}
+#include "pathUtils.h"
 
 Analizador::Analizador() : noticias(), ruta("") {
 }
@@ -147,8 +124,8 @@ void Analizador::addNoticiaToAgrupacionEntidadMasFrecuente(std::shared_ptr<Notic
 
 bool Analizador::isAgrupacionesAgrupables(Agrupacion &agrupacion1, Agrupacion &agrupacion2) const
 {
-    auto entidades1 = getEntidadesFromAgrupacion(agrupacion1);
-    auto entidades2 = getEntidadesFromAgrupacion(agrupacion2);
+    auto entidades1 = agrupacion1.getEntidades();
+    auto entidades2 = agrupacion2.getEntidades();
     std::vector<std::string> entidadesComunes;
     set_intersection(entidades1.begin(),entidades1.end(),entidades2.begin(),entidades2.end(), std::back_inserter(entidadesComunes));
     if (entidadesComunes.size() != 0)
@@ -162,24 +139,4 @@ bool Analizador::isAgrupacionesAgrupables(Agrupacion &agrupacion1, Agrupacion &a
         }
     }
     return false;
-}
-
-std::ostream& operator<<(std::ostream& os, const std::list<Agrupacion>& obj)
-{
-    for (auto grupo : obj)
-    {
-        auto e = getEntidadesFromAgrupacion(grupo);
-        for (auto e1 : e)
-        {
-            os << e1 + " ";
-        }
-        os << std::endl;
-        for (auto noticia : grupo)
-        {
-            os << "   *[" + noticia->getTitulo() + "]\n";
-        }
-        os << std::endl;
-    }
-
-    return os;
 }
