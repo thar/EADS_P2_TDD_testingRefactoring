@@ -34,27 +34,6 @@ Noticia::Noticia(std::string titulo, std::string cuerpo, std::shared_ptr<Palabra
     inicializar();
 }
 
-Noticia::Noticia(std::string rutaNoticia, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) :
-        titulo(""), cuerpo(""), entidades(), palabrasReservadas(palabrasReservadas), entidadMasFrecuente() {
-    FileLineIterator f(rutaNoticia);
-    if (f.is_open()) {
-        for (auto line : f)
-        {
-            static int index = 0;
-            if (titulo == "") {
-                titulo = line.getLine();
-            } else {
-                if (cuerpo == "")
-                    cuerpo = line.getLine();
-                else
-                    cuerpo += " " + line.getLine();
-            }
-        }
-    }
-
-    inicializar();
-}
-
 void Noticia::setTitulo(std::string titulo) {
     this->titulo = titulo;
 }

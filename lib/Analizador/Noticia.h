@@ -25,7 +25,6 @@ class Noticia : public NoticiaInterface {
 public:
 	Noticia();
 	Noticia(std::string titulo, std::string cuerpo, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
-    Noticia(std::string rutaNoticias, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
 
 	void setTitulo(std::string titulo);
 	void setCuerpo(std::string cuerpo);
