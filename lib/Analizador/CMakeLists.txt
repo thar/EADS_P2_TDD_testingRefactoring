@@ -11,6 +11,7 @@ set(SOURCE_FILES
         Noticia.cpp
     Noticia.h NoticiaInterface.h
         EntidadComposite.h EntidadComposite.cpp
-        PalabrasReservadas.h PalabrasReservadas.cpp PalabrasReservadasInterface.h)
+        PalabrasReservadas.h PalabrasReservadas.cpp PalabrasReservadasInterface.h
+        AgrupadorNoticias.cpp AgrupadorNoticias.h)
 
 add_library(analizadorLib ${SOURCE_FILES})
