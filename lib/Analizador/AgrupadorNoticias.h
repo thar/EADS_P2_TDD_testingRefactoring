@@ -6,6 +6,13 @@
 #include "NoticiaVisitor.h"
 #include "NoticiaInterface.h"
 
+enum NoticiaType
+{
+    NOTICIA_TEXTO,
+};
+
+bool compare_NoticiaType (const std::pair<NoticiaType, std::shared_ptr<NoticiaInterface>>& first, const std::pair<NoticiaType, std::shared_ptr<NoticiaInterface>>& second);
+
 class AgrupadorNoticias : public NoticiaVisitor
 {
 public:
@@ -13,7 +20,11 @@ public:
     bool isAgregable(std::shared_ptr<NoticiaInterface> n1, std::shared_ptr<NoticiaInterface> n2);
     void visit(Noticia& n);
 protected:
+    bool isAgregable(Noticia &n1, Noticia &n2) const;
+    unsigned long getMinimoNumeroEntidadesParaAgrupacionTematicaNoticiaTexto(Noticia& n) const;
+    bool isEntidadEnTexto(const EntidadComposite entidad, const std::string texto) const;
 private:
+    NoticiaType noticiaType_;
 };
 
 
