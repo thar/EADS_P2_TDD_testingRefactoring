@@ -14,14 +14,14 @@ public:
 
     virtual void setTitulo(std::string titulo) {};
     virtual void setCuerpo(std::string cuerpo) {};
-    virtual void setPalabrasReservadas(PalabrasReservadasInterface&) {};
+    virtual void setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) {};
 
     virtual std::string getTitulo()const = 0;
     virtual std::string getCuerpo()const = 0;
     virtual std::list<std::string> getEntidades()const = 0;
     virtual EntidadComposite getEntidadMasFrecuente() const = 0;
     virtual int getFrecuenciaEntidad(EntidadComposite entidad) const = 0;
-    virtual std::list<std::string> getPalabrasReservadas()const = 0;
+    virtual std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas()const = 0;
     virtual std::list<std::string> getEntidadesRelevantes()const = 0;
     virtual bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const = 0;
     virtual std::string toString()const = 0;

@@ -8,6 +8,7 @@
 
 class PalabrasReservadasInterface
 {
+public:
     virtual bool has(std::string) = 0;
     virtual std::set<std::string>::iterator begin() = 0;
     virtual std::set<std::string>::iterator end() = 0;

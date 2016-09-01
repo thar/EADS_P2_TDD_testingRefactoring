@@ -29,14 +29,14 @@ std::multimap<B, A> flip_map(std::map<A,B> & src) {
 Noticia::Noticia() : titulo(""), cuerpo(""), entidades(), palabrasReservadas(), entidadMasFrecuente() {
 }
 
-Noticia::Noticia(std::string titulo, std::string cuerpo, std::string ruta) :
+Noticia::Noticia(std::string titulo, std::string cuerpo, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) :
         titulo(titulo), cuerpo(cuerpo) {
-    this->setPalabrasReservadas(ruta);
+    this->setPalabrasReservadas(palabrasReservadas);
     this->procesarEntidades();
     this->procesarEntidadMasFrecuente();
 }
 
-Noticia::Noticia(std::string rutaNoticia, std::string rutaStopWords) :
+Noticia::Noticia(std::string rutaNoticia, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) :
         titulo(""), cuerpo(""), entidades(), palabrasReservadas(), entidadMasFrecuente() {
     FileLineIterator f(rutaNoticia);
     if (f.is_open()) {
@@ -54,7 +54,7 @@ Noticia::Noticia(std::string rutaNoticia, std::string rutaStopWords) :
         }
     }
 
-    this->setPalabrasReservadas(rutaStopWords);
+    this->setPalabrasReservadas(palabrasReservadas);
     this->procesarEntidades();
     this->procesarEntidadMasFrecuente();
 }
@@ -67,14 +67,8 @@ void Noticia::setCuerpo(std::string cuerpo) {
     this->cuerpo = cuerpo;
 }
 
-void Noticia::setPalabrasReservadas(std::string ruta) {
-    FileLineIterator f(ruta);
-    for (auto linea : f)
-    {
-        LineWordIterator lineaIterator(linea);
-        for (auto palabra : lineaIterator)
-            this->palabrasReservadas.push_back(palabra);
-    }
+void Noticia::setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) {
+    this->palabrasReservadas = palabrasReservadas;
 }
 
 void Noticia::inicializar() {
@@ -114,7 +108,7 @@ int Noticia::getFrecuenciaEntidad(EntidadComposite entidad) const
     return 0;
 }
 
-std::list<std::string> Noticia::getPalabrasReservadas() const {
+std::shared_ptr<PalabrasReservadasInterface> Noticia::getPalabrasReservadas() const {
     return this->palabrasReservadas;
 }
 
@@ -198,7 +192,7 @@ bool Noticia::agregarEntidad(std::string nombre) {
     if (islower(nombre[0])) return false;
     std::string copiaNombre = nombre;
     std::transform(copiaNombre.begin(), copiaNombre.end(), copiaNombre.begin(), ::tolower);
-    if (std::find(this->palabrasReservadas.begin(), this->palabrasReservadas.end(), copiaNombre) != this->palabrasReservadas.end())
+    if (palabrasReservadas->has(copiaNombre))
         return false;
     auto entidad = entidades.find(nombre);
     if (entidad != entidades.end())

@@ -52,11 +52,13 @@ void Analizador::setNoticas(std::string ruta) {
     std::string rutaRestricciones = ruta + "/ES_stopList.txt";
     std::string rutaNoticias = ruta + "/news";
 
+    std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas = std::make_shared<PalabrasReservadas>(rutaRestricciones);
+
     std::vector<std::string> fileList = globVector(rutaNoticias + "/*");
 
     for (auto file : fileList)
     {
-        std::shared_ptr<NoticiaInterface> noticia = std::make_shared<Noticia>(file, rutaRestricciones);
+        std::shared_ptr<NoticiaInterface> noticia = std::make_shared<Noticia>(file, palabrasReservadas);
         if (noticia->getTitulo().length() != 0)
             addNoticia(noticia);
     }
