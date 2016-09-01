@@ -13,13 +13,13 @@ class Agrupacion
 public:
     std::set<std::string> getEntidades() const
     {
-        std::set<std::string> e;
+        std::set<std::string> entidades;
         for (const auto& n : noticias)
         {
-            const auto en = n->getEntidadMasFrecuente().getEntidadNombrada();
-            e.insert(en.begin(), en.end());
+            const auto entidad = n->getEntidadMasFrecuente().getEntidadNombrada();
+            entidades.insert(entidad.begin(), entidad.end());
         }
-        return e;
+        return entidades;
     }
 
     std::string getTitulo() const

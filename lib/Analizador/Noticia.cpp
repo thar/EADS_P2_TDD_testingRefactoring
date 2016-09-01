@@ -30,14 +30,12 @@ Noticia::Noticia() : titulo(""), cuerpo(""), entidades(), palabrasReservadas(), 
 }
 
 Noticia::Noticia(std::string titulo, std::string cuerpo, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) :
-        titulo(titulo), cuerpo(cuerpo) {
-    this->setPalabrasReservadas(palabrasReservadas);
-    this->procesarEntidades();
-    this->procesarEntidadMasFrecuente();
+        titulo(titulo), cuerpo(cuerpo), palabrasReservadas(palabrasReservadas) {
+    inicializar();
 }
 
 Noticia::Noticia(std::string rutaNoticia, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) :
-        titulo(""), cuerpo(""), entidades(), palabrasReservadas(), entidadMasFrecuente() {
+        titulo(""), cuerpo(""), entidades(), palabrasReservadas(palabrasReservadas), entidadMasFrecuente() {
     FileLineIterator f(rutaNoticia);
     if (f.is_open()) {
         for (auto line : f)
@@ -54,9 +52,7 @@ Noticia::Noticia(std::string rutaNoticia, std::shared_ptr<PalabrasReservadasInte
         }
     }
 
-    this->setPalabrasReservadas(palabrasReservadas);
-    this->procesarEntidades();
-    this->procesarEntidadMasFrecuente();
+    inicializar();
 }
 
 void Noticia::setTitulo(std::string titulo) {
@@ -114,31 +110,6 @@ std::shared_ptr<PalabrasReservadasInterface> Noticia::getPalabrasReservadas() co
 
 std::set<std::string> Noticia::getEntidadesRelevantes() const {
     return this->entidadesRelevantes;
-}
-
-bool Noticia::esAgrupable(std::shared_ptr<NoticiaInterface> n) const {
-
-    EntidadComposite entidadMasFrecuenteNoticiaEntrada = n->getEntidadMasFrecuente();
-
-    LineWordIterator lit(titulo);
-    for (auto word : lit)
-    {
-        if (word == entidadMasFrecuenteNoticiaEntrada)
-            return true;
-    }
-
-    std::set<std::string> entidadesRelevantesNoticiaExterna = n->getEntidadesRelevantes();
-    int cuentaEntidadesRelevantesEncontradas = 0;
-
-    for (auto entidadRelevanteExterna : entidadesRelevantesNoticiaExterna)
-    {
-        if (entidades.find(entidadRelevanteExterna) != entidades.end())
-        {
-            ++cuentaEntidadesRelevantesEncontradas;
-        }
-    }
-
-    return (cuentaEntidadesRelevantesEncontradas >= (entidadesRelevantesNoticiaExterna.size() / 3));
 }
 
 std::string Noticia::toString() const {

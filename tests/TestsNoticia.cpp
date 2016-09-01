@@ -95,29 +95,6 @@ TEST(Noticia, givenNoticiaSinEntidadesRelevantes_whenPreguntarPorEntidadesReleva
     EXPECT_EQ(n.getEntidadesRelevantes().size(), 0);
 }
 
-TEST(Noticia, givenDosNoticiasConMismaEntidadMasFrecuente_whenPreguntarPorAgrupables_then_true)
-{
-    std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas = std::make_shared<PalabrasReservadas>("dataTests/ES_stopList_test1.txt");
-    Noticia n1("Título de la noticia ", "noticia con entidades no Relevantes ", palabrasReservadas);
-    std::shared_ptr<Noticia> n2 = std::make_shared<Noticia>("Título Relevante ", "noticia sin entidades ", palabrasReservadas);
-    EXPECT_EQ(n1.esAgrupable(n2), true);
-}
-
-TEST(Noticia, givenDosNoticiasConDistintaEntidadMasFrecuentePeroCumpliendoCondicion30Porciento_whenPreguntarPorAgrupables_then_true)
-{
-    std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas = std::make_shared<PalabrasReservadas>("dataTests/ES_stopList_test1.txt");
-    std::shared_ptr<Noticia> n1 = std::make_shared<Noticia>("Noticia 1 ",
-                                                            "Noticia Cinco Seis Siete Ocho Nueve Diez Once Doce Trece Catorce Diez ",
-                                                            palabrasReservadas);
-    Noticia n2("Noticia 2 ",
-               "Esta Noticia Tiene el 30% de las Entidades más Relevantes de la Primera y Muchas Otras Más. Cinco ",
-               palabrasReservadas);
-    ASSERT_NE(n1->getEntidadMasFrecuente(), n2.getEntidadMasFrecuente());
-    auto entidadesRelevantes1 = n1->getEntidadesRelevantes();
-    EXPECT_EQ(entidadesRelevantes1.size(), 3);
-    EXPECT_EQ(n2.esAgrupable(n1), true);
-}
-
 TEST(Noticia, givenNoticiaConPalabrasQueNoEmpiezanPorLetras_whenPreguntarPorEntidadesEncontradas_then_NingunaDevuelta)
 {
     std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas = std::make_shared<PalabrasReservadas>("dataTests/ES_stopList_test1.txt");

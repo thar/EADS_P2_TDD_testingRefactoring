@@ -39,7 +39,6 @@ public:
 	virtual int getFrecuenciaEntidad(EntidadComposite entidad) const;
 	virtual std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas()const;
 	virtual std::set<std::string> getEntidadesRelevantes()const;
-	bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const;
 	std::string toString()const;
     void accept(NoticiaVisitor& visitor) { visitor.visit(*this); }
 
