@@ -30,6 +30,7 @@ std::vector<std::shared_ptr<NoticiaInterface>> NoticiasBuilder::getNoticias()
     return noticias;
 }
 
+//TODO: Función con 3 parámetros
 void
 NoticiasBuilder::obtenerDatosNoticiasDesdeFichero(std::string &rutaFichero, std::string &titulo, std::string &cuerpo)
 {
@@ -39,14 +40,13 @@ NoticiasBuilder::obtenerDatosNoticiasDesdeFichero(std::string &rutaFichero, std:
     if (f.is_open()) {
         for (auto line : f)
         {
-            static int index = 0;
             if (titulo == "") {
                 titulo = line.getLine();
             } else {
                 if (cuerpo == "")
                     cuerpo = line.getLine();
                 else
-                    cuerpo += " " + line.getLine();
+                    cuerpo += "\n" + line.getLine();
             }
         }
     }

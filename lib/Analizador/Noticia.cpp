@@ -91,6 +91,7 @@ std::set<std::string> Noticia::getEntidadesRelevantes() const {
     return this->entidadesRelevantes;
 }
 
+//TODO: Hay número mágicos
 std::string Noticia::toString() const {
 
     std::string salida;

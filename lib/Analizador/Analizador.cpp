@@ -25,6 +25,7 @@ std::string Analizador::agruparNoticiasGeneral() {
     return ss.str();
 }
 
+//TODO: Números mágicos
 std::string Analizador::toString() const {
     std::string salida;
 	for (auto noticia : noticias)

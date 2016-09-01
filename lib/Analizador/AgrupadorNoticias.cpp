@@ -67,6 +67,7 @@ bool AgrupadorNoticias::isAgregable(Noticia &n1, Noticia &n2) const
     return entidadEnTitulo && (entidadesComunes.size() >= valorMinimoDeEntidadesCompartidas);
 }
 
+//TODO: Número mágico
 unsigned long AgrupadorNoticias::getMinimoNumeroEntidadesParaAgrupacionTematicaNoticiaTexto(Noticia& n) const
 {
     return (n.getEntidadesRelevantes().size() / 3);
