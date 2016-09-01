@@ -11,9 +11,9 @@ TEST(Noticia, givenDatosParaCreacionDeNoticiaConUnaSolaEntidad_whenObtenerDatosD
     EXPECT_EQ(n.getPalabrasReservadas()->size(), 4);
     auto entidadesEncontradas = n.getEntidades();
     ASSERT_EQ(entidadesEncontradas.size(), 1);
-    EXPECT_EQ(entidadesEncontradas.front(), "Ahora");
+    EXPECT_EQ(*entidadesEncontradas.begin(), "Ahora");
     EXPECT_EQ(n.getEntidadMasFrecuente(), "Ahora");
-    EXPECT_EQ(n.getEntidadesRelevantes().front(), "Ahora");
+    EXPECT_EQ(*n.getEntidadesRelevantes().begin(), "Ahora");
 }
 
 TEST(Noticia, givenDatosParaCreacionDeNoticiaConUnaSolaEntidad_whenConstructorSinParametros_y_ObtenerDatosDeLaInterfazPublicaDeNoticia_then_DatosCorrectosSonObtenidos)
@@ -29,9 +29,9 @@ TEST(Noticia, givenDatosParaCreacionDeNoticiaConUnaSolaEntidad_whenConstructorSi
     EXPECT_EQ(n.getPalabrasReservadas()->size(), 4);
     auto entidadesEncontradas = n.getEntidades();
     ASSERT_EQ(entidadesEncontradas.size(), 1);
-    EXPECT_EQ(entidadesEncontradas.front(), "Ahora");
+    EXPECT_EQ(*entidadesEncontradas.begin(), "Ahora");
     EXPECT_EQ(n.getEntidadMasFrecuente(), "Ahora");
-    EXPECT_EQ(n.getEntidadesRelevantes().front(), "Ahora");
+    EXPECT_EQ(*n.getEntidadesRelevantes().begin(), "Ahora");
 }
 
 TEST(Noticia, givenNoticiaConEntidadesSoloPertenecientes_a_laListaDePalabrasReservadas_whenPreguntarPorEntidadesEncontradas_then_CeroSonDevueltas)
@@ -44,7 +44,7 @@ TEST(Noticia, givenNoticiaConEntidadesSoloPertenecientes_a_laListaDePalabrasRese
     n.inicializar();
     entidadesEncontradas = n.getEntidades();
     ASSERT_EQ(entidadesEncontradas.size(), 1);
-    EXPECT_EQ(entidadesEncontradas.front(), "Entidad");
+    EXPECT_EQ(*entidadesEncontradas.begin(), "Entidad");
     EXPECT_EQ(n.getEntidadMasFrecuente(), "Entidad");
 }
 
@@ -62,7 +62,7 @@ TEST(Noticia, givenNoticiaConEntidadConFrecuencia3_whenPreguntarPorEntidadesEnco
     Noticia n("Título de la noticia ", "Prueba prueba Prueba prueba Prueba ", palabrasReservadas);
     auto entidadesEncontradas = n.getEntidades();
     ASSERT_EQ(entidadesEncontradas.size(), 1);
-    EXPECT_EQ(n.getFrecuenciaEntidad(entidadesEncontradas.front()), 3);
+    EXPECT_EQ(n.getFrecuenciaEntidad(*entidadesEncontradas.begin()), 3);
 }
 
 TEST(Noticia, givenNoticiaConEntidadConFrecuencia3yEntidadConFrecuencia2_whenPreguntarPorEntidadMasFrecuente_then_LaDeFrecuencia3EsDevuelta)

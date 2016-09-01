@@ -88,11 +88,11 @@ EntidadComposite Noticia::getEntidadMasFrecuente() const {
     return entidadMasFrecuente;
 }
 
-std::list<std::string> Noticia::getEntidades() const {
-    std::list<std::string> l;
+std::set<std::string> Noticia::getEntidades() const {
+    std::set<std::string> l;
     for (auto pair : entidades)
     {
-        l.push_back(pair.first);
+        l.insert(pair.first);
     }
     return l;
 }
@@ -112,7 +112,7 @@ std::shared_ptr<PalabrasReservadasInterface> Noticia::getPalabrasReservadas() co
     return this->palabrasReservadas;
 }
 
-std::list<std::string> Noticia::getEntidadesRelevantes() const {
+std::set<std::string> Noticia::getEntidadesRelevantes() const {
     return this->entidadesRelevantes;
 }
 
@@ -127,7 +127,7 @@ bool Noticia::esAgrupable(std::shared_ptr<NoticiaInterface> n) const {
             return true;
     }
 
-    std::list<std::string> entidadesRelevantesNoticiaExterna = n->getEntidadesRelevantes();
+    std::set<std::string> entidadesRelevantesNoticiaExterna = n->getEntidadesRelevantes();
     int cuentaEntidadesRelevantesEncontradas = 0;
 
     for (auto entidadRelevanteExterna : entidadesRelevantesNoticiaExterna)
@@ -147,9 +147,9 @@ std::string Noticia::toString() const {
     salida = "TITULO: " + this->titulo + "\n" + "CUERPO: " + this->cuerpo + "\n"
              + "ENTIDADES: ";
 
-    std::list<std::string> lista = this->getEntidades();
+    std::set<std::string> lista = this->getEntidades();
 
-    for (std::list<std::string>::iterator i = lista.begin();
+    for (std::set<std::string>::iterator i = lista.begin();
          i != lista.end(); i++) {
         salida += *i + " [" + std::to_string(this->getFrecuenciaEntidad(*i)) + "]";
         salida += " ";
@@ -169,7 +169,7 @@ void Noticia::procesarEntidades() {
     {
         bool entidadAgregada = this->agregarEntidad(word);
         if (entidadAgregada && lit.getPosition() <= 1./3)
-            this->entidadesRelevantes.push_back(word);
+            this->entidadesRelevantes.insert(word);
     }
 }
 

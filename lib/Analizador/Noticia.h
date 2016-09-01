@@ -11,13 +11,14 @@
 #include <list>
 #include <map>
 #include "NoticiaInterface.h"
+#include "NoticiaVisitor.h"
 
 class Noticia : public NoticiaInterface {
 
     std::string titulo;
     std::string cuerpo;
     std::map<std::string, int> entidades;
-    std::list<std::string> entidadesRelevantes;
+    std::set<std::string> entidadesRelevantes;
     EntidadComposite entidadMasFrecuente;
     std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas;
 
@@ -31,15 +32,16 @@ public:
 	void setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
 	void inicializar();
 
-	std::string getTitulo()const;
-	std::string getCuerpo()const;
-    EntidadComposite getEntidadMasFrecuente() const;
-	std::list<std::string> getEntidades()const;
-    int getFrecuenciaEntidad(EntidadComposite entidad) const;
-    std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas()const;
-	std::list<std::string> getEntidadesRelevantes()const;
+	virtual std::string getTitulo()const;
+	virtual std::string getCuerpo()const;
+	virtual EntidadComposite getEntidadMasFrecuente() const;
+	virtual std::set<std::string> getEntidades()const;
+	virtual int getFrecuenciaEntidad(EntidadComposite entidad) const;
+	virtual std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas()const;
+	virtual std::set<std::string> getEntidadesRelevantes()const;
 	bool esAgrupable(std::shared_ptr<NoticiaInterface> n)const;
 	std::string toString()const;
+    void accept(NoticiaVisitor& visitor) { visitor.visit(*this); }
 
 
 private:
