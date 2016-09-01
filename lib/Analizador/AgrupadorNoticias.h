@@ -10,6 +10,7 @@
 enum NoticiaType
 {
     NOTICIA_TEXTO,
+    TUIT
 };
 
 bool compare_NoticiaType (const std::pair<NoticiaType, std::shared_ptr<NoticiaInterface>>& first, const std::pair<NoticiaType, std::shared_ptr<NoticiaInterface>>& second);
@@ -23,6 +24,8 @@ public:
     void visit(Tuit& n);
 protected:
     bool isAgregable(Noticia &n1, Noticia &n2) const;
+    bool isAgregable(Noticia &n1, Tuit &n2) const;
+    bool isAgregable(Tuit &n1, Tuit &n2) const;
     unsigned long getMinimoNumeroEntidadesParaAgrupacionTematicaNoticiaTexto(Noticia& n) const;
     bool isEntidadEnTexto(const EntidadComposite entidad, const std::string texto) const;
 private:

@@ -3,6 +3,7 @@
 
 #include "LineWordIterator.h"
 #include "Noticia.h"
+#include "Tuit.h"
 #include <list>
 #include <vector>
 #include <algorithm>
@@ -39,6 +40,28 @@ bool AgrupadorNoticias::isAgregable(std::shared_ptr<NoticiaInterface> n1, std::s
                     resultado = isAgregable(noticia1Reference, noticia2Reference);
                     resultado |= isAgregable(noticia2Reference, noticia1Reference);
                 }
+                    break;
+                case TUIT:
+                {
+                    Noticia &noticia1Reference = reinterpret_cast<Noticia &>(*parTipoNoticia.front().second);
+                    Tuit &noticia2Reference = reinterpret_cast<Tuit &>(*parTipoNoticia.back().second);
+                    resultado = isAgregable(noticia1Reference, noticia2Reference);
+                }
+                    break;
+            }
+            break;
+        case TUIT:
+            switch (parTipoNoticia.back().first)
+            {
+                case TUIT:
+                {
+                    Tuit &noticia1Reference = reinterpret_cast<Tuit &>(*parTipoNoticia.front().second);
+                    Tuit &noticia2Reference = reinterpret_cast<Tuit &>(*parTipoNoticia.back().second);
+                    resultado = isAgregable(noticia1Reference, noticia2Reference);
+                    resultado |= isAgregable(noticia2Reference, noticia1Reference);
+                }
+                    break;
+                default:
                     break;
             }
             break;
@@ -86,5 +109,35 @@ bool AgrupadorNoticias::isEntidadEnTexto(const EntidadComposite entidad, const s
 
 void AgrupadorNoticias::visit(Tuit &n)
 {
+    noticiaType_ = TUIT;
+}
 
+bool AgrupadorNoticias::isAgregable(Noticia &n1, Tuit &n2) const
+{
+    if (n1.getEntidadMasFrecuente() == n2.getEntidadMasFrecuente())
+        return true;
+
+    const auto entidadesTuit = n2.getEntidades();
+    const auto entidadMasFrecuenteN1 = n1.getEntidadMasFrecuente();
+
+    for (const auto entidad : entidadesTuit)
+    {
+        if (entidad == entidadMasFrecuenteN1)
+            return true;
+    }
+
+    return false;
+}
+
+bool AgrupadorNoticias::isAgregable(Tuit &n1, Tuit &n2) const
+{
+    if (n1.getEntidadMasFrecuente() == n2.getEntidadMasFrecuente())
+        return true;
+
+    auto entidadesN1 = n1.getEntidades();
+    auto entidadesN2 = n2.getEntidades();
+
+    std::vector<std::string> entidadesComunes;
+    set_intersection(entidadesN1.begin(),entidadesN1.end(),entidadesN2.begin(),entidadesN2.end(), std::back_inserter(entidadesComunes));
+    return entidadesComunes.size() > 0;
 }

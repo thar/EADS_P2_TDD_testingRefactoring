@@ -9,6 +9,7 @@
 class Tuit : public NoticiaInterface
 {
 public:
+	Tuit() {};
     Tuit(Json::Value& inputData, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
 
     void setTitulo(std::string titulo) {}
@@ -17,7 +18,7 @@ public:
 	void inicializar();
 
     virtual std::string getTitulo() const { return tuit; }
-    virtual std::string getCuerpo() const { return ""; }
+    std::string getCuerpo() const { return ""; }
     virtual EntidadComposite getEntidadMasFrecuente() const { return entidadMasFrecuente; }
     virtual std::set<std::string> getEntidades() const;
     virtual int getFrecuenciaEntidad(EntidadComposite entidad) const;

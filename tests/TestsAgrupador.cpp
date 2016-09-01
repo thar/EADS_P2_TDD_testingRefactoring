@@ -151,3 +151,122 @@ TEST(Agrupador, givenDosNoticiasTalesQueNoCumplenLaCondicionDeTituloNiLaDe30porc
     EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Noticia>>(n1), static_cast<std::shared_ptr<Noticia>>(n2)), false);
     EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Noticia>>(n2), static_cast<std::shared_ptr<Noticia>>(n1)), false);
 }
+
+TEST(Agrupador, givenDosTuitsAgrupablesPorEntidadMasFrecuente_whenPreguntarAlAgregadorSiSonAgregablesPorEntidad_then_trueEsRetornado)
+{
+    std::shared_ptr<TuitMock> n1 = std::make_shared<TuitMock>();
+    std::shared_ptr<TuitMock> n2 = std::make_shared<TuitMock>();
+    EXPECT_CALL(*n1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    EXPECT_CALL(*n2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    AgrupadorNoticias agregadorNoticias;
+    EXPECT_EQ(agregadorNoticias.isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<Tuit>>(n1), static_cast<std::shared_ptr<Tuit>>(n2)), true);
+}
+
+TEST(Agrupador, givenDosTuitsNoAgrupablesPorEntidadMasFrecuente_whenPreguntarAlAgregadorSiSonAgregablesPorEntidad_then_falseEsRetornado)
+{
+    std::shared_ptr<TuitMock> n1 = std::make_shared<TuitMock>();
+    std::shared_ptr<TuitMock> n2 = std::make_shared<TuitMock>();
+    EXPECT_CALL(*n1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    EXPECT_CALL(*n2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad2"));
+    AgrupadorNoticias agregadorNoticias;
+    EXPECT_EQ(agregadorNoticias.isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<Tuit>>(n1), static_cast<std::shared_ptr<Tuit>>(n2)), false);
+}
+
+TEST(Agrupador, givenDosTuitsAgrupablesPorEntidadMasFrecuente_whenPreguntarAlAgregadorSiSonAgregablesPorTematica_then_trueEsRetornado)
+{
+    std::shared_ptr<TuitMock> n1 = std::make_shared<TuitMock>();
+    std::shared_ptr<TuitMock> n2 = std::make_shared<TuitMock>();
+    EXPECT_CALL(*n1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    EXPECT_CALL(*n2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    AgrupadorNoticias agregadorNoticias;
+    EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Tuit>>(n1), static_cast<std::shared_ptr<Tuit>>(n2)), true);
+}
+
+TEST(Agrupador, givenDosTuitConDistintaEntidadMasFrecuentePeroCumpliendoCondicionDeAgrupacionTematica_whenPreguntarAlAgregadorSiSonAgregables_then_trueEsRetornado)
+{
+    std::shared_ptr<TuitMock> n1 = std::make_shared<TuitMock>();
+    std::shared_ptr<TuitMock> n2 = std::make_shared<TuitMock>();
+    std::set<std::string> entidadesNoticia1;
+    std::set<std::string> entidadesNoticia2;
+    entidadesNoticia1.insert("E1");
+    entidadesNoticia1.insert("E2");
+    entidadesNoticia2.insert("E0");
+    entidadesNoticia2.insert("E1");
+    EXPECT_CALL(*n1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    EXPECT_CALL(*n2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad2"));
+    EXPECT_CALL(*n1, getEntidades()).WillRepeatedly(Return(entidadesNoticia1));
+    EXPECT_CALL(*n2, getEntidades()).WillRepeatedly(Return(entidadesNoticia2));
+    AgrupadorNoticias agregadorNoticias;
+    EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Tuit>>(n1), static_cast<std::shared_ptr<Tuit>>(n2)), true);
+}
+
+TEST(Agrupador, givenTuit_y_NoticiaAgrupablesPorEntidadMasFrecuente_whenPreguntarAlAgregadorSiSonAgregablesPorEntidad_then_trueEsRetornado)
+{
+    std::shared_ptr<TuitMock> n1 = std::make_shared<TuitMock>();
+    std::shared_ptr<NoticiaTextoMock> n2 = std::make_shared<NoticiaTextoMock>();
+    EXPECT_CALL(*n1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    EXPECT_CALL(*n2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    AgrupadorNoticias agregadorNoticias;
+    EXPECT_EQ(agregadorNoticias.isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<Tuit>>(n1), static_cast<std::shared_ptr<Noticia>>(n2)), true);
+    EXPECT_EQ(agregadorNoticias.isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<Noticia>>(n2), static_cast<std::shared_ptr<Tuit>>(n1)), true);
+}
+
+TEST(Agrupador, givenTuit_y_NoticiaNoAgrupablesPorEntidadMasFrecuente_whenPreguntarAlAgregadorSiSonAgregablesPorEntidad_then_trueEsRetornado)
+{
+    std::shared_ptr<TuitMock> n1 = std::make_shared<TuitMock>();
+    std::shared_ptr<NoticiaTextoMock> n2 = std::make_shared<NoticiaTextoMock>();
+    EXPECT_CALL(*n1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    EXPECT_CALL(*n2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad2"));
+    AgrupadorNoticias agregadorNoticias;
+    EXPECT_EQ(agregadorNoticias.isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<Tuit>>(n1), static_cast<std::shared_ptr<Noticia>>(n2)), false);
+    EXPECT_EQ(agregadorNoticias.isAgregableEntidadMasFrecuente(static_cast<std::shared_ptr<Noticia>>(n2), static_cast<std::shared_ptr<Tuit>>(n1)), false);
+}
+
+TEST(Agrupador, givenTuit_y_NoticiaAgrupablesPorEntidadMasFrecuente_whenPreguntarAlAgregadorSiSonAgregablesPorTematica_then_trueEsRetornado)
+{
+    std::shared_ptr<TuitMock> n1 = std::make_shared<TuitMock>();
+    std::shared_ptr<NoticiaTextoMock> n2 = std::make_shared<NoticiaTextoMock>();
+    EXPECT_CALL(*n1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    EXPECT_CALL(*n2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    AgrupadorNoticias agregadorNoticias;
+    EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Tuit>>(n1), static_cast<std::shared_ptr<Noticia>>(n2)), true);
+    EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Noticia>>(n2), static_cast<std::shared_ptr<Tuit>>(n1)), true);
+}
+
+TEST(Agrupador, givenTuit_y_NoticiaConDistintaEntidadMasFrecuentePeroCumpliendoCondicionDeAgrupacionTematica_whenPreguntarAlAgregadorSiSonAgregables_then_trueEsRetornado)
+{
+    std::shared_ptr<TuitMock> n1 = std::make_shared<TuitMock>();
+    std::shared_ptr<NoticiaTextoMock> n2 = std::make_shared<NoticiaTextoMock>();
+    std::set<std::string> entidadesNoticia1;
+    std::set<std::string> entidadesNoticia2;
+    entidadesNoticia1.insert("E1");
+    entidadesNoticia1.insert("E2");
+    entidadesNoticia2.insert("E0");
+    entidadesNoticia2.insert("E1");
+    EXPECT_CALL(*n1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    EXPECT_CALL(*n2, getEntidadMasFrecuente()).WillRepeatedly(Return("E1"));
+    EXPECT_CALL(*n1, getEntidades()).WillRepeatedly(Return(entidadesNoticia1));
+    EXPECT_CALL(*n2, getEntidades()).WillRepeatedly(Return(entidadesNoticia2));
+    AgrupadorNoticias agregadorNoticias;
+    EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Tuit>>(n1), static_cast<std::shared_ptr<Noticia>>(n2)), true);
+    EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Noticia>>(n2), static_cast<std::shared_ptr<Tuit>>(n1)), true);
+}
+
+TEST(Agrupador, givenTuit_y_NoticiaNoAgrupablesPorTematica_whenPreguntarAlAgregadorSiSonAgregables_then_falseEsRetornado)
+{
+    std::shared_ptr<TuitMock> n1 = std::make_shared<TuitMock>();
+    std::shared_ptr<NoticiaTextoMock> n2 = std::make_shared<NoticiaTextoMock>();
+    std::set<std::string> entidadesNoticia1;
+    std::set<std::string> entidadesNoticia2;
+    entidadesNoticia1.insert("E1");
+    entidadesNoticia1.insert("E2");
+    entidadesNoticia2.insert("E0");
+    entidadesNoticia2.insert("E1");
+    EXPECT_CALL(*n1, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad1"));
+    EXPECT_CALL(*n2, getEntidadMasFrecuente()).WillRepeatedly(Return("Entidad2"));
+    EXPECT_CALL(*n1, getEntidades()).WillRepeatedly(Return(entidadesNoticia1));
+    EXPECT_CALL(*n2, getEntidades()).WillRepeatedly(Return(entidadesNoticia2));
+    AgrupadorNoticias agregadorNoticias;
+    EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Tuit>>(n1), static_cast<std::shared_ptr<Noticia>>(n2)), false);
+    EXPECT_EQ(agregadorNoticias.isAgregable(static_cast<std::shared_ptr<Noticia>>(n2), static_cast<std::shared_ptr<Tuit>>(n1)), false);
+}
