@@ -9,7 +9,7 @@ PalabrasReservadas::PalabrasReservadas(const std::string rutaFichero)
     FileLineIterator f(rutaFichero);
     for (auto linea : f)
     {
-        LineWordIterator lineaIterator(linea);
+        LineWordIterator lineaIterator(linea.getLine());
         for (auto palabra : lineaIterator)
             palabrasReservadas_.insert(palabra);
     }

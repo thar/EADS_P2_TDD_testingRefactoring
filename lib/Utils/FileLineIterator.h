@@ -12,7 +12,20 @@
 class FileLineIterator
 {
 public:
-    class Line : public std::string {};
+    class Line
+    {
+    public:
+        Line() : line() {}
+        Line(const std::string line) : line(line) {}
+        Line(const char * line) : Line(std::string(line)) {}
+        std::string getLine() const { return line; }
+        Line& operator =(const std::string& b)
+        {
+            line = b;
+        }
+    private:
+        std::string line;
+    };
 
     FileLineIterator(std::string filePath) : inputFile(filePath), beginIterator(inputFile) { }
     bool is_open() { return inputFile.is_open(); }
@@ -26,7 +39,9 @@ private:
 
 inline std::istream &operator>>(std::istream &is, FileLineIterator::Line &l)
 {
-    std::getline(is, l);
+    std::string tempLine;
+    std::getline(is, tempLine);
+    l = tempLine;
     return is;
 }
 

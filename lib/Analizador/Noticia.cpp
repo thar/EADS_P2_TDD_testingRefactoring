@@ -44,12 +44,12 @@ Noticia::Noticia(std::string rutaNoticia, std::shared_ptr<PalabrasReservadasInte
         {
             static int index = 0;
             if (titulo == "") {
-                titulo = line;
+                titulo = line.getLine();
             } else {
                 if (cuerpo == "")
-                    cuerpo = line;
+                    cuerpo = line.getLine();
                 else
-                    cuerpo += " " + line;
+                    cuerpo += " " + line.getLine();
             }
         }
     }
