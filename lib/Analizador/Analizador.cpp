@@ -93,12 +93,11 @@ std::list<Agrupacion> Analizador::getAgrupacionTematica()
 void Analizador::addNoticiaToAgrupacionEntidadMasFrecuente(std::shared_ptr<NoticiaInterface> noticia)
 {
     bool agrupada = false;
-    AgrupadorNoticias agrupadorNoticias;
     for (auto &grupo : agrupacionEntidadMasFrecuente)
     {
         for (auto &noticiaDeGrupo : grupo)
         {
-            if (agrupadorNoticias.isAgregableEntidadMasFrecuente(noticiaDeGrupo, noticia))
+            if (getAgrupador()->isAgregableEntidadMasFrecuente(noticiaDeGrupo, noticia))
             {
                 grupo.push_back(noticia);
                 agrupada = true;
@@ -115,7 +114,7 @@ void Analizador::addNoticiaToAgrupacionEntidadMasFrecuente(std::shared_ptr<Notic
     }
 }
 
-bool Analizador::isAgrupacionesAgrupables(Agrupacion &agrupacion1, Agrupacion &agrupacion2) const
+bool Analizador::isAgrupacionesAgrupables(Agrupacion &agrupacion1, Agrupacion &agrupacion2)
 {
     auto entidades1 = agrupacion1.getEntidades();
     auto entidades2 = agrupacion2.getEntidades();
@@ -123,14 +122,26 @@ bool Analizador::isAgrupacionesAgrupables(Agrupacion &agrupacion1, Agrupacion &a
     set_intersection(entidades1.begin(),entidades1.end(),entidades2.begin(),entidades2.end(), std::back_inserter(entidadesComunes));
     if (entidadesComunes.size() != 0)
         return true;
-    AgrupadorNoticias agrupadorNoticias;
     for (auto noticia1 : agrupacion1)
     {
         for (auto noticia2 : agrupacion2)
         {
-            if (agrupadorNoticias.isAgregable(noticia1, noticia2))
+            if (getAgrupador()->isAgregable(noticia1, noticia2))
                 return true;
         }
     }
     return false;
+}
+
+void Analizador::setAgrupador(std::shared_ptr<AgrupadorNoticiasInterface> agrupador)
+{
+    this->agrupador = agrupador;
+}
+
+std::shared_ptr<AgrupadorNoticiasInterface> Analizador::getAgrupador()
+{
+    if (agrupador)
+        return agrupador;
+    else
+        return std::make_shared<AgrupadorNoticias>();
 }

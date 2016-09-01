@@ -5,6 +5,7 @@
 #include <memory>
 #include "NoticiaVisitor.h"
 #include "NoticiaInterface.h"
+#include "AgrupadorNoticiasInterface.h"
 
 enum NoticiaType
 {
@@ -13,7 +14,7 @@ enum NoticiaType
 
 bool compare_NoticiaType (const std::pair<NoticiaType, std::shared_ptr<NoticiaInterface>>& first, const std::pair<NoticiaType, std::shared_ptr<NoticiaInterface>>& second);
 
-class AgrupadorNoticias : public NoticiaVisitor
+class AgrupadorNoticias : public NoticiaVisitor, public AgrupadorNoticiasInterface
 {
 public:
     bool isAgregableEntidadMasFrecuente(std::shared_ptr<NoticiaInterface> n1, std::shared_ptr<NoticiaInterface> n2) const;
