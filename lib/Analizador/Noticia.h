@@ -36,6 +36,8 @@ public:
 	std::string toString()const;
     void accept(NoticiaVisitor& visitor) { visitor.visit(*this); }
 
+    std::vector<std::string> getParrafos() const { return parrafos; }
+
 private:
 	void procesarEntidades();
 	void procesarEntidadMasFrecuente();
