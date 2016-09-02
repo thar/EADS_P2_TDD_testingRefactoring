@@ -41,6 +41,9 @@ target_link_libraries(AnalizadorTests LINK_PUBLIC gtest gmock_main analizadorLib
 add_test(NAME AnalizadorTests_test COMMAND AnalizadorTests)
 add_custom_command(TARGET AnalizadorTests POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/data $<TARGET_FILE_DIR:AnalizadorTests>/data)
+add_custom_command(TARGET AnalizadorTests POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_SOURCE_DIR}/dataTests $<TARGET_FILE_DIR:AnalizadorTests>/dataTests)
 add_custom_command(TARGET AnalizadorTests POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
