@@ -11,10 +11,10 @@
 #include <list>
 #include <map>
 #include <vector>
-#include "NoticiaInterface.h"
+#include "NoticiaLocal.h"
 #include "NoticiaVisitor.h"
 
-class Noticia : public NoticiaInterface {
+class Noticia : public NoticiaLocal {
 
 
 public:
@@ -23,32 +23,21 @@ public:
 
 	void setTitulo(std::string titulo);
 	void setParrafos(std::vector<std::string> parrafos);
-	void setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas);
-	void inicializar();
 
 	virtual std::string getTitulo()const;
 	virtual std::string getCuerpo()const;
-	virtual EntidadComposite getEntidadMasFrecuente() const;
-	virtual std::set<std::string> getEntidades()const;
-	virtual int getFrecuenciaEntidad(EntidadComposite entidad) const;
-	virtual std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas()const;
-	virtual std::set<std::string> getEntidadesRelevantes()const;
+
 	std::string toString()const;
     void accept(NoticiaVisitor& visitor) { visitor.visit(*this); }
+
+    void procesarEntidades();
 
     std::vector<std::string> getParrafos() const { return parrafos; }
 
 private:
-	void procesarEntidades();
-	void procesarEntidadMasFrecuente();
-	bool agregarEntidad(std::string nombre);
 
 	std::string titulo;
     std::vector<std::string> parrafos;
-	std::map<std::string, int> entidades;
-	std::set<std::string> entidadesRelevantes;
-	EntidadComposite entidadMasFrecuente;
-	std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas;
 };
 
 #endif /* NOTICIA_H_ */

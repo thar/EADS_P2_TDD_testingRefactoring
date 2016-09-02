@@ -15,22 +15,12 @@
 #include <FileLineIterator.h>
 #include <LineWordIterator.h>
 
-template <typename A, typename B>
-std::multimap<B, A> flip_map(std::map<A,B> & src) {
-
-    std::multimap<B,A> dst;
-
-    for(auto it : src)
-        dst.insert(std::pair<B, A>(it.second, it.first));
-
-    return dst;
-}
-
 Noticia::Noticia() {
 }
 
 Noticia::Noticia(std::string titulo, std::vector<std::string> parrafos, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) :
-        titulo(titulo), parrafos(parrafos), palabrasReservadas(palabrasReservadas) {
+        titulo(titulo), parrafos(parrafos) {
+    this->palabrasReservadas = palabrasReservadas;
     inicializar();
 }
 
@@ -40,15 +30,6 @@ void Noticia::setTitulo(std::string titulo) {
 
 void Noticia::setParrafos(std::vector<std::string> parrafos) {
     this->parrafos = parrafos;
-}
-
-void Noticia::setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) {
-    this->palabrasReservadas = palabrasReservadas;
-}
-
-void Noticia::inicializar() {
-    this->procesarEntidades();
-    this->procesarEntidadMasFrecuente();
 }
 
 std::string Noticia::getTitulo() const {
@@ -66,38 +47,15 @@ std::string Noticia::getCuerpo() const {
     return cuerpo;
 }
 
-EntidadComposite Noticia::getEntidadMasFrecuente() const {
-    return entidadMasFrecuente;
-}
-
-std::set<std::string> Noticia::getEntidades() const {
-    std::set<std::string> l;
-    for (auto pair : entidades)
+void Noticia::procesarEntidades() {
+    LineWordIterator lit(getCuerpo());
+    for (auto word : lit)
     {
-        l.insert(pair.first);
+        bool entidadAgregada = this->agregarEntidad(word);
+        if (entidadAgregada && lit.getPosition() <= 1./3)
+            this->entidadesRelevantes.insert(word);
     }
-    return l;
 }
-
-int Noticia::getFrecuenciaEntidad(EntidadComposite entidad) const
-{
-    for (auto e : entidad.getEntidadNombrada())
-    {
-        auto idx = entidades.find(e);
-        if (idx != entidades.end())
-            return idx->second;
-    }
-    return 0;
-}
-
-std::shared_ptr<PalabrasReservadasInterface> Noticia::getPalabrasReservadas() const {
-    return this->palabrasReservadas;
-}
-
-std::set<std::string> Noticia::getEntidadesRelevantes() const {
-    return this->entidadesRelevantes;
-}
-
 //TODO: Hay número mágicos
 std::string Noticia::toString() const {
 
@@ -119,49 +77,5 @@ std::string Noticia::toString() const {
              + this->getEntidadMasFrecuente().toString();
 
     return salida;
-}
-
-void Noticia::procesarEntidades() {
-    LineWordIterator lit(getCuerpo());
-    for (auto word : lit)
-    {
-        bool entidadAgregada = this->agregarEntidad(word);
-        if (entidadAgregada && lit.getPosition() <= 1./3)
-            this->entidadesRelevantes.insert(word);
-    }
-}
-
-void Noticia::procesarEntidadMasFrecuente() {
-
-    entidadMasFrecuente = EntidadComposite();
-    if (entidades.size() == 0)
-    {
-        return;
-    }
-    auto reverseEntidades = flip_map(entidades);
-    int mayorFrecuencia = reverseEntidades.rbegin()->first;
-    auto ret = reverseEntidades.equal_range(mayorFrecuencia);
-    for (auto it=ret.first; it!=ret.second; ++it)
-        entidadMasFrecuente += it->second;
-}
-
-bool Noticia::agregarEntidad(std::string nombre) {
-    if (!isalpha(nombre[0])) return false;
-    if (islower(nombre[0])) return false;
-    std::string copiaNombre = nombre;
-    std::transform(copiaNombre.begin(), copiaNombre.end(), copiaNombre.begin(), ::tolower);
-    if (palabrasReservadas->has(copiaNombre))
-        return false;
-    auto entidad = entidades.find(nombre);
-    if (entidad != entidades.end())
-    {
-        ++entidades[nombre];
-        return false;
-    }
-    else
-    {
-        entidades.insert(std::pair<std::string, int>(nombre, 1));
-        return true;
-    }
 }
 

@@ -17,6 +17,6 @@ set(SOURCE_FILES
         Tuit.cpp Tuit.h TuitsJsonBuilder.h TuitsJsonBuilder.cpp
         NoticiasJsonBuilder.cpp NoticiasJsonBuilder.h
         ConversorJson.cpp ConversorJson.h
-        SalvadorDeAgrupaciones.h SalvadorDeAgrupacionesJson.cpp SalvadorDeAgrupacionesJson.h)
+        SalvadorDeAgrupaciones.h SalvadorDeAgrupacionesJson.cpp SalvadorDeAgrupacionesJson.h NoticiaLocal.cpp NoticiaLocal.h)
 
 add_library(analizadorLib ${SOURCE_FILES})
