@@ -1,0 +1,25 @@
+@startuml
+
+NoticiaInterface ..> PalabrasReservadasInterface
+NoticiaInterface ..> EntidadComposite
+NoticiaInterface ..> NoticiaVisitor
+
+interface NoticiaInterface {
+!ifdef SHOW_METHODS
+    +void setTitulo(std::string titulo) {}
+    +void setCuerpo(std::string cuerpo) {}
+    +void setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) {}
+    +std::string getTitulo()const
+    +std::string getCuerpo()const
+    +std::set<std::string> getEntidades()const
+    +EntidadComposite getEntidadMasFrecuente() const
+    +int getFrecuenciaEntidad(EntidadComposite entidad) const
+    +std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas()const
+    +std::set<std::string> getEntidadesRelevantes()const
+    +std::string toString()const
+    +void accept(NoticiaVisitor& visitor)
+!endif
+}
+
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+
+Agrupacion ..> NoticiaInterface
+
+class Agrupacion {
+!ifdef SHOW_METHODS
+    +std::set<std::string> getEntidades() const
+    +std::string getTitulo() const
+    +void push_back(std::shared_ptr<NoticiaInterface> noticia)
+    +std::list<std::shared_ptr<NoticiaInterface>>::iterator begin()
+    +std::list<std::shared_ptr<NoticiaInterface>>::iterator end() 
+    +const std::list<std::shared_ptr<NoticiaInterface>>::const_iterator begin() const 
+    +const std::list<std::shared_ptr<NoticiaInterface>>::const_iterator end() const 
+    +void insert(std::list<std::shared_ptr<NoticiaInterface>>::iterator it1,std::list<std::shared_ptr<NoticiaInterface>>::iterator it2, std::list<std::shared_ptr<NoticiaInterface>>::iterator it3)
+    +void swap(Agrupacion& a)
+    -std::list<std::shared_ptr<NoticiaInterface>> noticias
+!endif
+}
+@enduml

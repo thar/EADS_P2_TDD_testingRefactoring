@@ -1,0 +1,11 @@
+@startuml
+
+NoticiasBuilderInterface ..> NoticiaInterface
+
+interface NoticiasBuilderInterface {
+!ifdef SHOW_METHODS
+    +std::vector<std::shared_ptr<NoticiaInterface>> getNoticias()
+!endif
+}
+
+@enduml

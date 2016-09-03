@@ -1,0 +1,16 @@
+@startuml
+
+!include Agrupacion.uml
+!include AgrupadorNoticiasInterface.uml
+!include AgrupadorNoticias.uml
+!include Analizador.uml
+!include EntidadComposite.uml
+!include NoticiaInterface.uml
+!include NoticiasBuilderInterface.uml
+!include NoticiasBuilder.uml
+!include Noticia.uml
+!include NoticiaVisitor.uml
+!include PalabrasReservadasInterface.uml
+!include PalabrasReservadas.uml
+
+@enduml

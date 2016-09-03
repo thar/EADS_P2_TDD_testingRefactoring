@@ -1,0 +1,28 @@
+@startuml
+
+Analizador --> NoticiasBuilderInterface
+Analizador --> NoticiaInterface
+Analizador --> AgrupadorNoticiasInterface
+Analizador --> Agrupacion
+
+class Analizador {
+!ifdef SHOW_METHODS
+    +void addNoticias(std::shared_ptr<NoticiasBuilderInterface> fuente)
+    +std::list<std::shared_ptr<NoticiaInterface>> getNoticias() const
+    +void setAgrupador(std::shared_ptr<AgrupadorNoticiasInterface> agrupador)
+    +std::string agruparNoticias()
+    +std::string agruparNoticiasGeneral()
+    +std::string toString()const
+    +void addNoticia(std::shared_ptr<NoticiaInterface> n)
+    +std::list<Agrupacion> getAgrupacionEntidadMasNombrada()
+    +std::list<Agrupacion> getAgrupacionTematica()
+    #std::shared_ptr<AgrupadorNoticiasInterface> getAgrupador()
+    #void addNoticiaToAgrupacionEntidadMasFrecuente(std::shared_ptr<NoticiaInterface> noticia)
+    #bool isAgrupacionesAgrupables(Agrupacion& agrupacion1, Agrupacion& agrupacion2)
+    -std::list<std::shared_ptr<NoticiaInterface>> noticias
+    -std::list<Agrupacion> agrupacionEntidadMasFrecuente
+    -std::shared_ptr<AgrupadorNoticiasInterface> agrupador
+!endif
+}
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+
+NoticiasBuilder --|> NoticiasBuilderInterface
+NoticiasBuilder --> Noticia
+NoticiasBuilder ..> NoticiaInterface
+NoticiasBuilder ..> PalabrasReservadasInterface
+
+class NoticiasBuilder {
+!ifdef SHOW_METHODS
+    +NoticiasBuilder(std::string noticiasPath, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas)
+    +std::vector<std::shared_ptr<NoticiaInterface>> getNoticias()
+    #void obtenerDatosNoticiasDesdeFichero(std::string& rutaFichero, std::string& titulo, std::string& cuerpo)
+    -std::string noticiasPath
+    -std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas
+!endif
+}
+
+@enduml

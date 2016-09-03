@@ -1,0 +1,28 @@
+@startuml
+
+AgrupadorNoticias --|> NoticiaVisitor
+AgrupadorNoticias --|> AgrupadorNoticiasInterface
+AgrupadorNoticias --> NoticiaInterface
+AgrupadorNoticias --> Noticia
+AgrupadorNoticias --> EntidadComposite
+AgrupadorNoticias --> NoticiaType
+
+enum NoticiaType {
+!ifdef SHOW_METHODS
+    NOTICIA_TEXTO
+    !endif
+}
+
+class AgrupadorNoticias {
+!ifdef SHOW_METHODS
+    +bool isAgregableEntidadMasFrecuente(std::shared_ptr<NoticiaInterface> n1, std::shared_ptr<NoticiaInterface> n2) const
+    +bool isAgregable(std::shared_ptr<NoticiaInterface> n1, std::shared_ptr<NoticiaInterface> n2)
+    +void visit(Noticia& n)
+    #bool isAgregable(Noticia &n1, Noticia &n2) const
+    #unsigned long getMinimoNumeroEntidadesParaAgrupacionTematicaNoticiaTexto(Noticia& n) const
+    #bool isEntidadEnTexto(const EntidadComposite entidad, const std::string texto) const
+    -NoticiaType noticiaType_
+!endif
+}
+
+@enduml

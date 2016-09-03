@@ -1,0 +1,12 @@
+@startuml
+
+AgrupadorNoticiasInterface ..> NoticiaInterface
+
+interface AgrupadorNoticiasInterface {
+!ifdef SHOW_METHODS
+    +bool isAgregableEntidadMasFrecuente(std::shared_ptr<NoticiaInterface> n1, std::shared_ptr<NoticiaInterface> n2) const
+    +bool isAgregable(std::shared_ptr<NoticiaInterface> n1, std::shared_ptr<NoticiaInterface> n2)
+!endif
+}
+
+@enduml

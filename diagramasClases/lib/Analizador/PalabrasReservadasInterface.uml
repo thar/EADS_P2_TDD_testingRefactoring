@@ -1,0 +1,12 @@
+@startuml
+
+interface PalabrasReservadasInterface {
+!ifdef SHOW_METHODS
+    +bool has(std::string)
+    +std::set<std::string>::iterator begin()
+    +std::set<std::string>::iterator end()
+    +std::set<std::string>::size_type size()
+!endif
+}
+
+@enduml

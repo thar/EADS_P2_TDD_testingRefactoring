@@ -1,0 +1,11 @@
+@startuml
+
+NoticiaVisitor ..> Noticia
+
+interface NoticiaVisitor {
+!ifdef SHOW_METHODS
+    +void visit(Noticia& n)
+!endif
+}
+
+@enduml

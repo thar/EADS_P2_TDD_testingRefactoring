@@ -1,0 +1,15 @@
+@startuml
+
+class EntidadComposite {
+!ifdef SHOW_METHODS
+    -std::set<std::string> entidadNombrada
+    +EntidadComposite() 
+    +EntidadComposite( const std::string n)
+    +EntidadComposite( const char * n)
+    +EntidadComposite& operator+=(const EntidadComposite& rhs)
+    +std::set<std::string> getEntidadNombrada() const
+    +std::string toString() const
+!endif
+}
+
+@enduml

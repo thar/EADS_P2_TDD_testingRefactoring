@@ -1,0 +1,19 @@
+@startuml
+
+PalabrasReservadas --|> PalabrasReservadasInterface
+
+class PalabrasReservadas {
+!ifdef SHOW_METHODS
+    +PalabrasReservadas() 
+    +PalabrasReservadas(std::set<std::string> palabrasReservadas) : palabrasReservadas_(palabrasReservadas) 
+    +PalabrasReservadas(const std::string rutaFichero)
+    +PalabrasReservadas(const char * rutaFichero) : PalabrasReservadas(std::string(rutaFichero)) 
+    +bool has(std::string palabra)
+    +std::set<std::string>::iterator begin() 
+    +std::set<std::string>::iterator end() 
+    +std::set<std::string>::size_type size() 
+    -std::set<std::string> palabrasReservadas_
+!endif
+}
+
+@enduml
