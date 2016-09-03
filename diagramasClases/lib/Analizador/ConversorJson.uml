@@ -1,0 +1,21 @@
+@startuml
+
+ConversorJson --> NoticiaInterface
+ConversorJson --|> NoticiaVisitor
+ConversorJson --> Json
+ConversorJson --> Tuit
+ConversorJson --> Noticia
+ConversorJson --> Agrupacion
+
+class ConversorJson {
+!ifdef SHOW_METHODS
+    +Json::Value getCampos(std::shared_ptr<NoticiaInterface> noticia)
+    +Json::Value getCampos(const Agrupacion& agrupacion)
+    +Json::Value getCampos(const std::list<Agrupacion> &agrupaciones)
+    +void visit(Noticia& noticia)
+    +void visit(Tuit& tuit)
+    -Json::Value camposNoticia
+!endif
+}
+
+@enduml

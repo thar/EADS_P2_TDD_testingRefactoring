@@ -7,7 +7,7 @@ NoticiaInterface ..> NoticiaVisitor
 interface NoticiaInterface {
 !ifdef SHOW_METHODS
     +void setTitulo(std::string titulo) {}
-    +void setParrafos(std::vector<std::string> parrafos)
+    +void setParrafos(std::vector<std::string> parrafos) {}
     +void setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas) {}
     +std::string getTitulo()const
     +std::string getCuerpo()const

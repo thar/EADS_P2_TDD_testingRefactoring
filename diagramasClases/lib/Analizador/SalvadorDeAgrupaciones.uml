@@ -1,0 +1,11 @@
+@startuml
+
+SalvadorDeAgrupaciones ..> Agrupacion
+
+interface SalvadorDeAgrupaciones {
+!ifdef SHOW_METHODS
+    +void salvar(std::list<Agrupacion>, std::string rutaFichero)
+!endif
+}
+
+@enduml

@@ -4,16 +4,20 @@
 !include AgrupadorNoticiasInterface.uml
 !include AgrupadorNoticias.uml
 !include Analizador.uml
+!include ConversorJson.uml
 !include EntidadComposite.uml
 !include NoticiaInterface.uml
+!include NoticiaLocal.uml
 !include NoticiasBuilderInterface.uml
 !include NoticiasBuilder.uml
+!include NoticiasJsonBuilder.uml
 !include Noticia.uml
 !include NoticiaVisitor.uml
 !include PalabrasReservadasInterface.uml
 !include PalabrasReservadas.uml
+!include SalvadorDeAgrupacionesJson.uml
+!include SalvadorDeAgrupaciones.uml
 !include TuitsJsonBuilder.uml
 !include Tuit.uml
-!include NoticiasJsonBuilder.uml
 
 @enduml

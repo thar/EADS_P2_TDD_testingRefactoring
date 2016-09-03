@@ -1,0 +1,12 @@
+@startuml
+
+SalvadorDeAgrupacionesJson --|> SalvadorDeAgrupaciones
+SalvadorDeAgrupacionesJson --> Agrupacion
+
+class SalvadorDeAgrupacionesJson {
+!ifdef SHOW_METHODS
+    +void salvar(std::list<Agrupacion>, std::string rutaFichero)
+!endif
+}
+
+@enduml
