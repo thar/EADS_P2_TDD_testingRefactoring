@@ -14,5 +14,6 @@
 !include PalabrasReservadas.uml
 !include TuitsJsonBuilder.uml
 !include Tuit.uml
+!include NoticiasJsonBuilder.uml
 
 @enduml

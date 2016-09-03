@@ -18,7 +18,7 @@ class Tuit {
     +std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas()const
     +std::set<std::string> getEntidadesRelevantes()const
     +void setTitulo(std::string titulo) 
-    +void setCuerpo(std::string cuerpo)
+    +void setParrafos(std::vector<std::string> parrafos)
     +std::string getTitulo() const 
     +std::string getCuerpo() const 
     +std::string toString() const

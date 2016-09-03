@@ -1,14 +1,11 @@
 @startuml
 
-Noticia --|> NoticiaInterface
-Noticia --> EntidadComposite
-Noticia --> PalabrasReservadasInterface
-Noticia --> NoticiaVisitor
+NoticiaLocal --|> NoticiaInterface
+NoticiaLocal --> EntidadComposite
+NoticiaLocal --> PalabrasReservadasInterface
 
-class Noticia {
+abstract NoticiaLocal {
 !ifdef SHOW_METHODS
-    +Noticia()
-    +Noticia(std::string titulo, std::vector<std::string> parrafos, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas)
     +setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas)
     +inicializar()
     +EntidadComposite getEntidadMasFrecuente() const
@@ -17,21 +14,12 @@ class Noticia {
     +std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas()const
     +std::set<std::string> getEntidadesRelevantes()const
     +void procesarEntidades()
-    +void setTitulo(std::string titulo)
-    +void setParrafos(std::vector<std::string> parrafos)
-    +std::string getTitulo()const
-    +std::string getCuerpo()const
-    +std::string toString()const
-    +void accept(NoticiaVisitor& visitor)
-    +std::vector<std::string> getParrafos() const
     -void procesarEntidadMasFrecuente()
     -bool agregarEntidad(std::string nombre)
     -std::map<std::string, int> entidades
     -std::set<std::string> entidadesRelevantes
     -EntidadComposite entidadMasFrecuente
     -std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas
-    -std::string titulo
-    -std::vector<std::string> parrafos
 !endif
 }
 
