@@ -1,0 +1,41 @@
+@startuml
+
+Tuit --> Json
+Tuit --> NoticiaVisitor
+Tuit --> PalabrasReservadasInterface
+Tuit --|> NoticiaInterface
+Tuit --> EntidadComposite
+
+class Tuit {
+!ifdef SHOW_METHODS
+    +Tuit() 
+    +Tuit(Json::Value& inputData, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas)
+    +setPalabrasReservadas(std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas)
+    +inicializar()
+    +EntidadComposite getEntidadMasFrecuente() const
+    +std::set<std::string> getEntidades()const
+    +int getFrecuenciaEntidad(EntidadComposite entidad) const
+    +std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas()const
+    +std::set<std::string> getEntidadesRelevantes()const
+    +void setTitulo(std::string titulo) 
+    +void setCuerpo(std::string cuerpo)
+    +std::string getTitulo() const 
+    +std::string getCuerpo() const 
+    +std::string toString() const
+    +void accept(NoticiaVisitor& visitor) 
+    +void procesarEntidades()
+    -void procesarEntidadMasFrecuente()
+    +std::string getUser() const 
+    +int getId() const
+    -bool agregarEntidad(std::string nombre)
+    -std::map<std::string, int> entidades
+    -std::set<std::string> entidadesRelevantes
+    -EntidadComposite entidadMasFrecuente
+    -std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas
+    -std::string tuit
+    -std::string user
+    -int id
+!endif
+}
+
+@enduml

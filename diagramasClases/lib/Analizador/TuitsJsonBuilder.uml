@@ -1,0 +1,17 @@
+@startuml
+
+TuitsJsonBuilder ..> PalabrasReservadasInterface
+TuitsJsonBuilder ..> NoticiaInterface
+TuitsJsonBuilder --> Tuit
+TuitsJsonBuilder --|> NoticiasBuilderInterface
+
+class TuitsJsonBuilder {
+!ifdef SHOW_METHODS
+    +TuitsJsonBuilder(std::string pathFicheroTuits, std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas)
+    +std::vector<std::shared_ptr<NoticiaInterface>> getNoticias()
+    -std::string pathFicheroTuits
+    -std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas
+!endif
+}
+
+@enduml

@@ -12,5 +12,7 @@
 !include NoticiaVisitor.uml
 !include PalabrasReservadasInterface.uml
 !include PalabrasReservadas.uml
+!include TuitsJsonBuilder.uml
+!include Tuit.uml
 
 @enduml
