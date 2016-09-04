@@ -15,12 +15,6 @@
 
 class Noticia : public NoticiaInterface {
 
-    std::string titulo;
-    std::string cuerpo;
-    std::map<std::string, int> entidades;
-    std::set<std::string> entidadesRelevantes;
-    EntidadComposite entidadMasFrecuente;
-    std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas;
 
 public:
 	Noticia();
@@ -41,11 +35,17 @@ public:
 	std::string toString()const;
     void accept(NoticiaVisitor& visitor) { visitor.visit(*this); }
 
-
 private:
 	void procesarEntidades();
 	void procesarEntidadMasFrecuente();
 	bool agregarEntidad(std::string nombre);
+
+	std::string titulo;
+	std::string cuerpo;
+	std::map<std::string, int> entidades;
+	std::set<std::string> entidadesRelevantes;
+	EntidadComposite entidadMasFrecuente;
+	std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas;
 };
 
 #endif /* NOTICIA_H_ */
