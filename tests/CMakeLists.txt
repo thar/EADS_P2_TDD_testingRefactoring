@@ -34,8 +34,9 @@ endif()
 
 include_directories(../lib/Analizador)
 include_directories(../lib/Utils)
+include_directories(../lib/jsoncpp)
 
-add_executable(AnalizadorTests TestsAnalizador.cpp TestsNoticia.cpp NoticiaMock.h TestsEntidadComposite.cpp LineWordIteratorTest.cpp TestsPalabrasReservadas.cpp TestsAgrupador.cpp AgrupadorNoticiasMock.h)
+add_executable(AnalizadorTests TestsAnalizador.cpp TestsNoticia.cpp NoticiaMock.h TestsEntidadComposite.cpp LineWordIteratorTest.cpp TestsPalabrasReservadas.cpp TestsAgrupador.cpp AgrupadorNoticiasMock.h TestTuit.cpp)
 target_link_libraries(AnalizadorTests LINK_PUBLIC gtest gmock_main analizadorLib jsoncppLib)
 add_test(NAME AnalizadorTests_test COMMAND AnalizadorTests)
 add_custom_command(TARGET AnalizadorTests POST_BUILD
