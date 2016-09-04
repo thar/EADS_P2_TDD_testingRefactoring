@@ -27,3 +27,14 @@ TEST(Tuit, givenDatosJsonParaCreacionDeTuit_whenObtenerDatosDeLaInterfazPublicaD
     EXPECT_EQ(n.getFrecuenciaEntidad("Prueba"),1);
     EXPECT_EQ(n.getFrecuenciaEntidad("Tuit"),1);
 }
+
+TEST(Tuit, givenFicheroConTuits_whenTuitsCreados_a_PartirDeFichero_then_3TuitsSonObtenidosConLosTitulosCorrectos)
+{
+    std::shared_ptr<PalabrasReservadasInterface> palabrasReservadas = std::make_shared<PalabrasReservadas>("data/ES_stopList_test.txt");
+    TuitsJsonBuilder builder("data/tuits.txt", palabrasReservadas);
+    auto tuits = builder.getNoticias();
+    ASSERT_EQ(tuits.size(), 3);
+    EXPECT_EQ(tuits[0]->getTitulo(), "Liberan a los dos sospechosos detenidos por el asesinato de un niño de 11 años en Liverpool");
+    EXPECT_EQ(tuits[1]->getTitulo(), "Detienen a seis jóvenes más en relación con el asesinato de el niño de Liverpool");
+    EXPECT_EQ(tuits[2]->getTitulo(), "Siguen los interrogatorios a los detenidos por el asesinato de el niño de Liverpool");
+}
