@@ -20,6 +20,7 @@ public:
     bool isAgregableEntidadMasFrecuente(std::shared_ptr<NoticiaInterface> n1, std::shared_ptr<NoticiaInterface> n2) const;
     bool isAgregable(std::shared_ptr<NoticiaInterface> n1, std::shared_ptr<NoticiaInterface> n2);
     void visit(Noticia& n);
+    void visit(Tuit& n);
 protected:
     bool isAgregable(Noticia &n1, Noticia &n2) const;
     unsigned long getMinimoNumeroEntidadesParaAgrupacionTematicaNoticiaTexto(Noticia& n) const;

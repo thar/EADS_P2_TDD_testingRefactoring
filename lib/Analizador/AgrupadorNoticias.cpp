@@ -83,3 +83,8 @@ bool AgrupadorNoticias::isEntidadEnTexto(const EntidadComposite entidad, const s
     }
     return false;
 }
+
+void AgrupadorNoticias::visit(Tuit &n)
+{
+
+}

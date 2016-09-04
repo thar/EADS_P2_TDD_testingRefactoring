@@ -24,7 +24,7 @@ public:
     virtual std::shared_ptr<PalabrasReservadasInterface> getPalabrasReservadas() const { return palabrasReservadas; }
     virtual std::set<std::string> getEntidadesRelevantes() const { return entidadesRelevantes; }
     std::string toString() const;
-    void accept(NoticiaVisitor& visitor) {  }
+    void accept(NoticiaVisitor& visitor) { visitor.visit(*this); }
 
     std::string getUser() const { return user; }
     int getId() const { return id; }
