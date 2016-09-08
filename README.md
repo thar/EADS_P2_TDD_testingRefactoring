@@ -25,6 +25,7 @@ El script **compile.sh** lanza la compilación del proyecto completo, dejando lo
 ####  test.sh
 
 El script **test.sh** entra en la carpeta **build/tests/** y lanza el binario **AnalizadorTests** que lanza todos los unit tests de la aplicación.
+Los resultados en formato XML de la ejecución de los tests quedan en el fichero **build/tests/XML_Report.xml**
 > **Nota:**
 > Antes de lanzar este script es necesario que se haya ejecutado el script **compile.sh**
 
